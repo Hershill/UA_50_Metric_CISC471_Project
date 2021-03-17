@@ -21,7 +21,7 @@ def generate_random_seq_set(min=5, max=150, num=250):
 
     for i in range(num):
         random_len = random.randint(min, max)
-        print(random_len)
+        # print(random_len)
         random_contig = str()
         for i in range(random_len):
             random_contig += random.choice(BASE_PAIRS)

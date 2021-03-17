@@ -18,15 +18,23 @@ Return: N50 and N75 for this collection of strings.
 """
 
 from helpers import *
+from sorting_algorithms import *
 from random_contig_set_generator import *
 from copy import deepcopy
 
 
-def nxx(dna_set, pct):
+# sorting algos available to use
+SORTING_ALGOS = {
+    'bubble': bubble_sort
+}
+
+
+def nxx(dna_set, pct, sorting_algo=None):
     """Return the NXX score of a given set of DNA contigs
 
     :param dna_set: list of DNA contigs
     :param pct: percentage threshold for N score
+    :param sorting_algo: algo to use to sort contigs, None is default and uses Python's built-in max function
     :return: corresponding N score, which is length of contig (L) where pct amount of contigs have length > L
     """
 
@@ -43,12 +51,24 @@ def nxx(dna_set, pct):
     # get target based on passed in value of pct
     target_len = genome_len * (pct / 100)
 
-    while track_sum <= target_len:
-        # get largest contig in list
-        longest_contig = max(dna_set_copy, key=len)
-        curr_contig_len = len(longest_contig)
-        track_sum += curr_contig_len
-        dna_set_copy.remove(longest_contig)
+    if sorting_algo:
+        # sort dna_set based on specified sorting algo
+        sorted_contigs = SORTING_ALGOS[sorting_algo](dna_set_copy)
+        print(sorted_contigs)
+        for contig in sorted_contigs:
+            curr_contig_len = len(contig)
+            track_sum += curr_contig_len
+            if track_sum >= target_len:
+                break
+
+    elif not sorting_algo:
+        # use Python's built-in max function
+        while track_sum <= target_len:
+            # get largest contig in list
+            longest_contig = max(dna_set_copy, key=len)
+            curr_contig_len = len(longest_contig)
+            track_sum += curr_contig_len
+            dna_set_copy.remove(longest_contig)
 
     return curr_contig_len
 
@@ -63,6 +83,10 @@ if __name__ == '__main__':
 
     n75 = nxx(dna_set, 75)
     print(n75)
+
+    # using bubble sort
+    n50 = nxx(dna_set, 50, 'bubble')
+    print(n50)
 
     # using generated sample data
     # TODO: need a way to verify this data with unittests, no way to prove our answers without Rosalind sample data
