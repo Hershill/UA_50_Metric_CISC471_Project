@@ -4,9 +4,9 @@ main.py file that runs the unittests when the file is called or run using the py
 Controller of unit tests for the Group project for CISC 471, Computational Biology.
 
 By:
-- Andrew Ma (20030440)
-- Rayan Shaikli (20059806)
-- Hershil Devnani (20001045)
+    - Andrew Ma (20030440)
+    - Rayan Shaikli (20059806)
+    - Hershil Devnani (20001045)
 
 There are two ways to run the program, outlined below. Both methods run the unittests.
 Sample Usage:
