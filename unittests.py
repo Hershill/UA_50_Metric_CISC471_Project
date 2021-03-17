@@ -16,17 +16,46 @@ Sample Usage:
 """
 
 import unittest
+from algorithms import *
 
 
 class TestN50Algorithm(unittest.TestCase):
     """Testing class for the required unittests
     """
 
-    def test_n50_positive_a(self):
-        return
+    def test_nxx_positive(self):
+        # N50 Test
+        file = "sample_data.txt"
+        contig_set = parse_data(file)
+        n50_score = nxx(contig_set, 50)
+
+        # make sure solution matches computed result
+        self.assertEqual(n50_score, 7)
+
+        # N75 Test
+        file = "sample_data.txt"
+        contig_set = parse_data(file)
+        n75_score = nxx(contig_set, 75)
+
+        # make sure solution matches computed result
+        self.assertEqual(n75_score, 6)
 
     def test_n50_negative(self):
-        return
+        # N50 Test
+        file = "sample_data_negative.txt"
+        contig_set = parse_data(file)
+        n50_score = nxx(contig_set, 50)
+
+        # make sure solution matches computed result
+        self.assertEqual(n50_score, 0)
+
+        # N75 Test
+        file = "sample_data_negative.txt"
+        contig_set = parse_data(file)
+        n75_score = nxx(contig_set, 75)
+
+        # make sure solution matches computed result
+        self.assertEqual(n75_score, 0)
 
 
 if __name__ == '__main__':
