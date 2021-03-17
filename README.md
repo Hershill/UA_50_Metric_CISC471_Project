@@ -10,14 +10,15 @@ The project contains the following files:
 
 ```
 .
-├── main.py             # Runs the unittests the algorithms implemented
-├── n50.py              # Contains the implementations of the N50 algorithm
-├── n75.py              # Contains the implementations of the N50 algorithm
-├── helpers.py          # Contains common helper functions used accross the different algorithms
-├── unittests.py        # Contains the unit tests for the implemented algorithms
-├── sample_data_x.py    # Contains the sample data for the unittests
-├── solution_x.py       # Contains the solutions to the sample data for the unittests
-└── README.md           # This file, contians information about the program
+├── main.py                             # Runs the unittests the algorithms implemented
+├── algorithms.py                       # Contains the implementations of the asssemby acoring algorithms
+├── sorting_algorithms.py               # Contains the implementations of the various sorting algorithms being compared
+├── random_contig_set_generator.py      # Contains the implementation of a data generator to generate data sets that the assembly quality algorithms can be run on
+├── helpers.py                          # Contains common helper functions used accross the different algorithms
+├── unittests.py                        # Contains the unit tests for the implemented algorithms
+├── sample_data_x.py                    # Contains the sample data for the unittests
+├── solution_x.py                       # Contains the solutions to the sample data for the unittests
+└── README.md                           # This file, contians information about the program
 ```
 
 ## Running the programs
