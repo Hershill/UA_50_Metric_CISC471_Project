@@ -18,6 +18,7 @@ Return: N50 and N75 for this collection of strings.
 """
 
 from helpers import *
+from random_contig_set_generator import *
 from copy import deepcopy
 
 
@@ -56,9 +57,16 @@ if __name__ == '__main__':
     filename = "sample_data.txt"
     dna_set = parse_data(filename)
     print(dna_set)
-    
+
     n50 = nxx(dna_set, 50)
     print(n50)
 
     n75 = nxx(dna_set, 75)
     print(n75)
+
+    # using generated sample data
+    # TODO: need a way to verify this data with unittests, no way to prove our answers without Rosalind sample data
+    generated_set = generate_random_seq_set()
+    n50 = nxx(generated_set, 50)
+    # print(generated_set)
+    print(f"Generated Set N50: {n50}")
