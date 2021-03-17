@@ -33,7 +33,7 @@ def nxx(dna_set, pct):
     if not dna_set:
         return 0
 
-    temp = deepcopy(dna_set)
+    dna_set_copy = deepcopy(dna_set)  # create a copy of the set of contigs to avoid manipulating the original set
     track_sum = 0  # keeps track of sum so far after looking at each contig
     curr_contig_len = 0  # length of contig we are currently looking at
 
@@ -44,10 +44,10 @@ def nxx(dna_set, pct):
 
     while track_sum <= target_len:
         # get largest contig in list
-        longest_contig = max(temp, key=len)
+        longest_contig = max(dna_set_copy, key=len)
         curr_contig_len = len(longest_contig)
         track_sum += curr_contig_len
-        temp.remove(longest_contig)
+        dna_set_copy.remove(longest_contig)
 
     return curr_contig_len
 
@@ -56,6 +56,7 @@ if __name__ == '__main__':
     filename = "sample_data.txt"
     dna_set = parse_data(filename)
     print(dna_set)
+    
     n50 = nxx(dna_set, 50)
     print(n50)
 
