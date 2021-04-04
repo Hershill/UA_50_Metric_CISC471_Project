@@ -1,10 +1,7 @@
 def files():
     DNAlist = []
-    # Using readlines()
     file1 = open('DNA.txt', 'r')
-    Lines = file1.readlines()
-     
-    # Strips the newline character
+    Lines = file1.readlines()     
     for line in Lines:
         DNAlist.append(line.strip())
     return DNAlist
@@ -53,13 +50,10 @@ def Reverse(Array):
     Array1 = []
             
 def main():
-    DnaList = files()
-    Array = grouping(DnaList)
+    Array = grouping(files())
     number = calculator(Array,.5)
-    print("N50")
-    print(number)
+    print("N50" + number)
     number2 = calculator(Array,.75)
-    print("N75")
-    print(number2)
+    print("N75" + number2)
 
 main()
