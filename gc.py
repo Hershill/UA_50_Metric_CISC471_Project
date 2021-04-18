@@ -69,8 +69,8 @@ def format_output(max_gc_content):
 
 
 if __name__ == '__main__':
-    filename = "gc_sample_data.txt"
-    # filename = "rosalind_dna.txt"
+    # filename = "gc_sample_data.txt"
+    filename = "rosalind_gc.txt"
     FASTA_data = parse_gc_data(filename)
     print(FASTA_data)
     max_gc_content = gc(FASTA_data)

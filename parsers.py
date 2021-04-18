@@ -57,7 +57,7 @@ def parse_gc_data(filename):
 
     for i in range(len(data_set)):
         if data_set[i][0] == ">":
-            data_set_name = data_set[i].strip("\n")
+            data_set_name = data_set[i][1:].strip("\n")
             FASTA_data_set[data_set_name] = ""
         else:
             FASTA_data_set[data_set_name] += data_set[i].strip("\n")
