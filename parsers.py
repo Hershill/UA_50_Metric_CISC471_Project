@@ -95,3 +95,19 @@ def parse_lexf_data(filename):
         lexf_data.append(data_set[i].strip("\n"))
 
     return lexf_data
+
+
+def parse_subs_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    lexf_data = list()
+
+    for i in range(len(data_set)):
+        lexf_data.append(data_set[i].strip("\n"))
+
+    return lexf_data
