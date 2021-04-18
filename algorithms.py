@@ -18,6 +18,7 @@ Return: N50 and N75 for this collection of strings.
 """
 
 from helpers import *
+from parsers import *
 from sorting_algorithms import *
 from random_contig_set_generator import *
 from copy import deepcopy
@@ -172,8 +173,8 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
 if __name__ == '__main__':
     filename = "sample_data.txt"
     filename1 = "sample_ref_genome.txt"
-    dna_set = parse_data(filename)
-    ref_genome = parse_data(filename1)
+    dna_set = parse_assembly_data(filename)
+    ref_genome = parse_assembly_data(filename1)
     print(dna_set)
     print(ref_genome)
 
