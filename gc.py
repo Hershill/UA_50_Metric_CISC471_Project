@@ -26,11 +26,6 @@ def gc(FASTA_sets):
     :return: dict of count of nucleotides
     """
 
-    # set up dict for A, C, G, T
-    count = {
-        "A": 0, "C": 0, "G": 0, "T": 0
-    }
-
     max_gc = dict()
 
     for key, value in FASTA_sets.items():
