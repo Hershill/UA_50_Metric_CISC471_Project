@@ -35,11 +35,12 @@ def parse_dna_data(filename):
     :return: RNA sequence as a string
     """
     with open(filename) as file:
-        data_set = file.readlines()
+        data_set = file.readline()
 
     # for i in range(len(data_set)):
     #     data_set += data_set[i].replace("\n", "")
+    data_set = data_set.strip("\n")
 
-    return data_set[0]
+    return data_set
 
 

@@ -51,7 +51,8 @@ def format_output(counts):
 
 
 if __name__ == '__main__':
-    filename = "dna_sample_data.txt"
+    # filename = "dna_sample_data.txt"
+    filename = "rosalind_dna.txt"
     dna_str = parse_dna_data(filename)
     print(dna_str)
     counts = dna(dna_str)
