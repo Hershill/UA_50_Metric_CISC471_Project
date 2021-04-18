@@ -18,56 +18,48 @@ Return: Four integers (separated by spaces) counting the respective number of ti
 
 
 from parsers import *
+import itertools
 
 
-def gc(FASTA_sets):
+def perm(input_num):
     """Return dict of counts of each nucleotide in DNA set
     :param FASTA_sets: string of nucleotides
     :return: dict of count of nucleotides
     """
 
-    max_gc = dict()
+    permutations = list()
 
-    for key, value in FASTA_sets.items():
-        max_gc[key] = gc_content(value)
+    if input_num > 7:
+        return permutations
 
-    print(max_gc)
+    number_set = list(range(1, input_num + 1))
+    permuations = list(itertools.permutations(number_set))
 
-    return [max(max_gc, key=max_gc.get), max_gc[max(max_gc, key=max_gc.get)]]
-
-
-def gc_content(string):
-
-    string_length = len(string)
-    gc_count = 0
-
-    for i in string:
-        if i == "G" or i == "C":
-            gc_count += 1
-
-    gc_pct = (gc_count/string_length) * 100
-
-    return gc_pct
+    return permuations
 
 
-def format_output(max_gc_content):
+def format_output(permutation_set):
     """ Format output according to problem requirement
 
     :param max_gc_content: list
     :return: formatted string output of results
     """
 
-    # append to string
-    formatted_str = f"{max_gc_content[0]}\n{max_gc_content[1]}"
+    formatted_str = f"{len(permutation_set)}\n"
+
+    for i in permutation_set:
+        for nums in i:
+            formatted_str += f"{nums} "
+        formatted_str += "\n"
 
     return formatted_str
 
 
 if __name__ == '__main__':
-    # filename = "gc_sample_data.txt"
-    filename = "rosalind_gc.txt"
-    FASTA_data = parse_gc_data(filename)
-    print(FASTA_data)
-    max_gc_content = gc(FASTA_data)
-    print(max_gc_content)
-    print(format_output(max_gc_content))
+    # filename = "perm_sample_data.txt"
+    filename = "rosalind_perm.txt"
+    perm_number = int(parse_dna_data(filename))
+    # print(perm_number)
+    permutation_set = perm(perm_number)
+    # print(permutation_set)
+    print(format_output(permutation_set))
