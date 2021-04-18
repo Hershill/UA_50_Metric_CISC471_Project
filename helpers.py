@@ -13,19 +13,7 @@ This class has many functions that are shared across all three algorithms.
 """
 
 
-def parse_data(filename):
-    """Read in the RNA sequence data from a file
 
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
-    """
-    with open(filename) as file:
-        data_set = file.readlines()
-
-    for i in range(len(data_set)):
-        data_set[i] = data_set[i].replace("\n", "")
-
-    return data_set
 
 
 def get_len_of_genome(dna_set):

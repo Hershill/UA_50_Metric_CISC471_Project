@@ -18,6 +18,7 @@ Return: N50 and N75 for this collection of strings.
 """
 
 from helpers import *
+from parsers import *
 from sorting_algorithms import *
 from random_contig_set_generator import *
 from copy import deepcopy
@@ -75,7 +76,7 @@ def nxx(dna_set, pct, sorting_algo=None):
 
 if __name__ == '__main__':
     filename = "sample_data.txt"
-    dna_set = parse_data(filename)
+    dna_set = parse_assembly_data(filename)
     print(dna_set)
 
     n50 = nxx(dna_set, 50)
