@@ -72,10 +72,11 @@ def nxx(dna_set, pct, sorting_algo=None):
 
     return curr_contig_len
 
-def u50(dna_set, ref_genome):
+def uxx(dna_set, pct, ref_genome):
     """Return the U50 score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs
+    :param pct: percentage threshold for U score
     :param ref_genome: reference genome
     """
 
@@ -110,18 +111,20 @@ def u50(dna_set, ref_genome):
         unique_contig_length.append(unique_length)
     
     # cutoff defined as the sum of length times the threshold precentage
-    cutoff = sum(unique_contig_length) * .5
+    cutoff = sum(unique_contig_length) * (pct/100)
     running_sum = 0
     for contig_length in unique_contig_length:
         running_sum = running_sum + contig_length
         if running_sum >= cutoff:
             return contig_length
 
-def ug50(dna_set, ref_genome, percentage=None):
-    """Return the U50 score of a given set of DNA contigs and reference genome
+def ugxx(dna_set, pct, ref_genome, percentage=None):
+    """Return the UG50 score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs
+    :param pct: percentage threshold for UG score
     :param ref_genome: reference genome
+    :param percentage: UGxx% statistics instead of UGxx, default is UGxx
     """
 
     # base case: if the dna set is emp
@@ -155,7 +158,7 @@ def ug50(dna_set, ref_genome, percentage=None):
         unique_contig_length.append(unique_length)
     
     # cutoff defined as the the length of ref genome times the threshold percentage
-    cutoff = len(ref_genome) * .5
+    cutoff = len(ref_genome) * (pct/100)
     running_sum = 0
 
     for contig_length in unique_contig_length:
@@ -174,14 +177,14 @@ if __name__ == '__main__':
     print(dna_set)
     print(ref_genome)
 
-    U50 = u50(dna_set, ref_genome)
-    print(U50)
+    u50 = uxx(dna_set, 50, ref_genome)
+    print(u50)
 
-    UG50 = ug50(dna_set, ref_genome)
-    print(UG50)
+    ug50 = ugxx(dna_set, 50, ref_genome)
+    print(ug50)
 
-    UG50P = ug50(dna_set, ref_genome, True)
-    print(UG50P)
+    ug50p = ugxx(dna_set, 50, ref_genome, True)
+    print(ug50p)
 
     n50 = nxx(dna_set, 50)
     print(n50)
