@@ -44,3 +44,23 @@ def parse_dna_data(filename):
     return data_set
 
 
+def parse_gc_data(filename):
+    """Read in the RNA sequence data from a file
+
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    FASTA_data_set = dict()
+
+    for i in range(len(data_set)):
+        if data_set[i][0] == ">":
+            data_set_name = data_set[i][1:].strip("\n")
+            FASTA_data_set[data_set_name] = ""
+        else:
+            FASTA_data_set[data_set_name] += data_set[i].strip("\n")
+
+    return FASTA_data_set
+
