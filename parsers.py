@@ -81,6 +81,20 @@ def parse_hamm_data(filename):
     return hamm_data
 
 
+def parse_iprb_data(filename):
+    """Read the number of homozygous dominant, heterozygous, homozygou recessive
+
+    :param filename: file containing 3 numbers
+    :return: the number of homozygous dominant, heterozygous, homozygou recessive
+    """
+    with open(filename) as file:
+        data_set = file.readline()
+
+    data_set = data_set.split(" ")
+
+    return data_set
+
+
 def parse_lexf_data(filename):
     """Read in the RNA sequence data from a file
     :param filename: file containing RNA sequence
