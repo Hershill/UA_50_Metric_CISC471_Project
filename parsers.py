@@ -80,3 +80,16 @@ def parse_hamm_data(filename):
         hamm_data.append(data_set[i].strip("\n"))
 
     return hamm_data
+
+def parse_iprb_data(filename):
+    """Read the number of homozygous dominant, heterozygous, homozygou recessive
+
+    :param filename: file containing 3 numbers
+    :return: the number of homozygous dominant, heterozygous, homozygou recessive
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    data_set[0] = data_set[0].replace(" ","")
+
+    return data_set[0]
