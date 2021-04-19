@@ -42,7 +42,7 @@ def dbru(dbru_set):
             prefixes_suffixes.append(prefix)
         if suffix not in prefixes_suffixes:
             prefixes_suffixes.append(suffix)
-
+    
     prefixes_suffixes_copy = copy.deepcopy(prefixes_suffixes)
 
     for i in prefixes_suffixes:
