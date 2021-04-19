@@ -58,7 +58,11 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome):
     scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
     scoring_metrics[f"EXT{pct}"] = round(extension_metric(dna_set, pct), 5)
     # percent composition of short, medium and long contigs
-    scoring_metrics["COMP"] = outputify_count_contig_pct(count_contig_pct(dna_set))
+    contig_info = count_contig_pct(dna_set)
+    scoring_metrics["CONTIG_NUM"] = (contig_info[-1])
+    scoring_metrics["CONTIG_SM_PCT"] = round(contig_info[0] * 100, 3)
+    scoring_metrics["CONTIG_MD_PCT"] = round(contig_info[1] * 100, 3)
+    scoring_metrics["CONTIG_LG_PCT"] = round(contig_info[2] * 100, 3)
 
     return scoring_metrics
 
