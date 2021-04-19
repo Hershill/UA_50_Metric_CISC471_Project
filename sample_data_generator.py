@@ -19,6 +19,7 @@ SMALL_RANGE = (5, 90)
 MEDIUM_RANGE = (90, 175)
 LARGE_RANGE = (175, 325)
 
+
 def generate_random_seq_set(min=5, max=150, num=250):
     random_contig_set = list()
 
@@ -39,6 +40,44 @@ def generate_random_contig(random_len):
         random_contig += random.choice(BASE_PAIRS)
 
     return random_contig
+
+
+def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3, large=1/3, num=250):
+    # defaults to evenly weighted
+
+    small_set = list()
+    med_set = list()
+    large_set = list()
+
+    genome_len = len(ref_genome)
+
+    # threshold for small 5-90 (add citation in report)
+    small_pct = small * num
+    for i in range(int(round(small_pct))):
+        rand_len = random.randrange(SMALL_RANGE[0], SMALL_RANGE[1])
+        rand_index = random.randrange(0, genome_len - rand_len)
+        contig = ref_genome[rand_index:rand_index + rand_len]
+        small_set.append(contig)
+
+    # threshold for medium 90-175
+    med_pct = medium * num
+    for i in range(int(round(med_pct))):
+        rand_len = random.randrange(MEDIUM_RANGE[0], MEDIUM_RANGE[1])
+        rand_index = random.randrange(0, genome_len - rand_len)
+        contig = ref_genome[rand_index:rand_index + rand_len]
+        med_set.append(contig)
+
+    # threshold for large 175-325
+    large_pct = large * num
+    for i in range(int(round(large_pct))):
+        rand_len = random.randrange(LARGE_RANGE[0], LARGE_RANGE[1])
+        rand_index = random.randrange(0, genome_len - rand_len)
+        contig = ref_genome[rand_index:rand_index + rand_len]
+        large_set.append(contig)
+
+    total_set = small_set + med_set + large_set
+
+    return total_set
 
 
 def generate_contigs_by_percentage(small=1/3, medium=1/3, large=1/3, num=250):
