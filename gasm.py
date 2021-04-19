@@ -7,7 +7,7 @@ def gasm(dna):
   for k in range(l-1,1,-1):
     adj = get_adj(dna,l,k)
     first = kmer = next(iter(adj))
-    superstring = ''
+    cyclic_superstring = ''
     
     while True:
       if kmer in adj:
