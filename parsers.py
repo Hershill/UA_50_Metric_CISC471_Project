@@ -88,11 +88,11 @@ def parse_iprb_data(filename):
     :return: the number of homozygous dominant, heterozygous, homozygou recessive
     """
     with open(filename) as file:
-        data_set = file.readlines()
+        data_set = file.readline()
 
-    data_set[0] = data_set[0].replace(" ","")
+    data_set = data_set.split(" ")
 
-    return data_set[0]
+    return data_set
 
 
 def parse_lexf_data(filename):
