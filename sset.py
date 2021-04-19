@@ -30,12 +30,15 @@ def sset(input_num):
     if input_num > 1000:
         return 0
 
-    return 2**input_num
+    # mod 1,000,000
+    num_ssets = 2 ** input_num % 1000000
+
+    return num_ssets
 
 
 if __name__ == '__main__':
-    filename = "sset_sample_data.txt"
-    # filename = "rosalind_perm.txt"
+    # filename = "sset_sample_data.txt"
+    filename = "rosalind_sset.txt"
     sset_number = int(parse_dna_data(filename))
     # print(sset_number)
     subsets = sset(sset_number)
