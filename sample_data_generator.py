@@ -15,6 +15,9 @@ BASE_PAIRS = ["A", "G", "C", "T"]
 
 # random.seed(version=2)
 
+SMALL_RANGE = (5, 90)
+MEDIUM_RANGE = (90, 175)
+LARGE_RANGE = (175, 325)
 
 def generate_random_seq_set(min=5, max=150, num=250):
     random_contig_set = list()
@@ -41,10 +44,6 @@ def generate_random_contig(random_len):
 def generate_contigs_by_percentage(small=1/3, medium=1/3, large=1/3, num=250):
     # defaults to evenly weighted
 
-    small_range = (5, 90)
-    med_range = (90, 175)
-    large_range = (175, 325)
-
     small_set = list()
     med_set = list()
     large_set = list()
@@ -52,27 +51,50 @@ def generate_contigs_by_percentage(small=1/3, medium=1/3, large=1/3, num=250):
     # threshold for small 5-90 (add citation in report)
     small_pct = small * num
     for i in range(int(round(small_pct))):
-        rand_len = random.randrange(small_range[0], small_range[1])
+        rand_len = random.randrange(SMALL_RANGE[0], SMALL_RANGE[1])
         contig = generate_random_contig(rand_len)
         small_set.append(contig)
 
     # threshold for medium 90-175
     med_pct = medium * num
     for i in range(int(round(med_pct))):
-        rand_len = random.randrange(med_range[0], med_range[1])
+        rand_len = random.randrange(MEDIUM_RANGE[0], MEDIUM_RANGE[1])
         contig = generate_random_contig(rand_len)
         med_set.append(contig)
 
     # threshold for large 175-325
     large_pct = large*num
     for i in range(int(round(large_pct))):
-        rand_len = random.randrange(large_range[0], large_range[1])
+        rand_len = random.randrange(LARGE_RANGE[0], LARGE_RANGE[1])
         contig = generate_random_contig(rand_len)
         large_set.append(contig)
 
     total_set = small_set + med_set + large_set
 
     return total_set
+
+
+def count_contig_pct(contig_set):
+    small_count = 0
+    med_count = 0
+    large_count = 0
+
+    num = len(contig_set)
+
+    for i in contig_set:
+        if SMALL_RANGE[0] <= len(i) <= SMALL_RANGE[1]:
+            small_count += 1
+        elif MEDIUM_RANGE[0] <= len(i) <= MEDIUM_RANGE[1]:
+            med_count += 1
+        elif LARGE_RANGE[0] <= len(i) <= LARGE_RANGE[1]:
+            large_count += 1
+
+    small_pct = small_count/num
+    med_pct = med_count/num
+    large_pct = large_count/num
+
+    return [small_pct, med_pct, large_pct, num]
+
 
 
 if __name__ == '__main__':
@@ -82,6 +104,8 @@ if __name__ == '__main__':
     generated_set = generate_contigs_by_percentage(0.75, 0.125, 0.125, 250)
     print(generated_set)
     print(len(generated_set))
+
+    print(count_contig_pct(generated_set))
 
     generated_set = generate_contigs_by_percentage(num=250)
     print(generated_set)
