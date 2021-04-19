@@ -129,8 +129,8 @@ def format_output(sets):
 
 
 if __name__ == '__main__':
-    filename = "seto_sample_data.txt"
-    # filename = "rosalind_gc.txt"
+    # filename = "seto_sample_data.txt"
+    filename = "rosalind_seto.txt"
     seto_data = parse_seto_data(filename)
     # print(seto_data)
 

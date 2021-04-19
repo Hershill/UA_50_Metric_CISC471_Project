@@ -17,6 +17,7 @@ Return: Four integers (separated by spaces) counting the respective number of ti
 """
 
 
+from revc import *
 from parsers import *
 import copy
 
@@ -33,40 +34,46 @@ def dbru(dbru_set):
     # all unique (k−1)-mers occurring as a prefix or suffix in dbru_set
     # create set of (k-1)-mers occurring as a prefix or suffix of contigs in dbru_set
 
-    prefixes_suffixes = list()
+    prefixes = list()
+    suffixes = list()
 
     for i in dbru_set:
         prefix = i[:k_1]
         suffix = i[-k_1:]
-        if prefix not in prefixes_suffixes:
-            prefixes_suffixes.append(prefix)
-        if suffix not in prefixes_suffixes:
-            prefixes_suffixes.append(suffix)
+        if prefix not in prefixes:
+            prefixes.append(prefix)
+        if suffix not in suffixes:
+            suffixes.append(suffix)
     
-    prefixes_suffixes_copy = copy.deepcopy(prefixes_suffixes)
+    # prefixes_suffixes_copy = copy.deepcopy(prefixes_suffixes)
+    prefixes = copy.deepcopy(prefixes)
+    suffixes = copy.deepcopy(suffixes)
 
-    for i in prefixes_suffixes:
-        suffix_overlap = i[len(i) - 2:]
-        for k in prefixes_suffixes_copy:
+    for i in prefixes:
+        suffix_overlap = i[1:]
+        for k in suffixes:
             prefix_overlap = k[:len(i) - 1]
             if suffix_overlap == prefix_overlap:
+                # if (i, k) not in dbru_graph:
                 dbru_graph.append((i, k))
 
+    dbru_graph = list()
+    revc_set = list()
+
+    for i in dbru_set:
+        revc_set.append(revc(i))
+
+    final_set = dbru_set + revc_set
+
+    for i in sorted(final_set):
+        prefix = i[:k_1]
+        suffix = i[-k_1:]
+        pre_suf_set = (prefix, suffix)
+
+        if pre_suf_set not in dbru_graph:
+            dbru_graph.append(pre_suf_set)
+
     return dbru_graph
-
-
-def gc_content(string):
-
-    string_length = len(string)
-    gc_count = 0
-
-    for i in string:
-        if i == "G" or i == "C":
-            gc_count += 1
-
-    gc_pct = (gc_count/string_length) * 100
-
-    return gc_pct
 
 
 def format_output(dbru_graph):
@@ -78,15 +85,15 @@ def format_output(dbru_graph):
 
     formatted_str = ""
 
-    for i in dbru_graph:
-        formatted_str += f"{i}\n"
+    for tup in dbru_graph:
+        formatted_str += f"({tup[0]}, {tup[1]})\n"
 
     return formatted_str
 
 
 if __name__ == '__main__':
-    filename = "dbru_sample_data.txt"
-    # filename = "rosalind_gc.txt"
+    # filename = "dbru_sample_data.txt"
+    filename = "rosalind_dbru.txt"
     dbru_data = parse_subs_data(filename)
     # print(dbru_data)
     dbru_graph = dbru(dbru_data)
