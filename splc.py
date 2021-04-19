@@ -61,7 +61,6 @@ def splice_rna(rna, introns):
     spliced_rna = rna
     for i in introns:
         index = spliced_rna.find(i)
-        print(index)
         spliced_rna = spliced_rna[:index] + spliced_rna[index + len(i): ]
 
     return spliced_rna
@@ -99,8 +98,8 @@ def format_output(max_gc_content):
 
 
 if __name__ == '__main__':
-    # filename = "splc_sample_data.txt"
-    filename = "rosalind_splc.txt"
+    filename = "splc_sample_data.txt"
+    # filename = "rosalind_splc.txt"
     # solution:     rna = "AUGUACAGUAAGACUCGAGCUGUAACGCAUGAUACAGUCAUGUACACAUCUGAAAGUUUAGAACAUCAGGCAUAUAUUCAUGCAUGGUGCAUGACAAAGCUCGUAGCUCUUUUGGUACGGAACUCCACCGGGCAAGCUUCAGCCAAAUGGGACUCGGGAGAAAGAUAUCCAGACAGCCCGGAAGGACACGUACCCAGGAGGUACUUGUUAUCCUUAGCUCUGAGCGGCAGGAAAAUUUCUCAAAUUCUGAAUGAAGCAGGGGGAUGCGUAGCCCGUCUUUACCCAUUUAUAUACUCUACGCGAAAGGAAGUGCACGAUGAAGAUGUUAUGAUUGCAAGUGGUGCAGACCAGAUAAGGGACUUCUUUAAGAUGAACGGCAACCUAUGCGGCUCAACCCCGCCUGAGCCGCCCAACUGUUAUACGCAUCGGAGUGUCAUAUGUUUAAUAGCGGUUCCUAGCGUGAGAAGAGGGAGGUGA"
     FASTA_data = parse_gc_data(filename)
     # print(FASTA_data)
