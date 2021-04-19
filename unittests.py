@@ -16,7 +16,7 @@ Sample Usage:
 """
 
 import unittest
-from algorithms import *
+from asqm import *
 
 
 class TestN50Algorithm(unittest.TestCase):

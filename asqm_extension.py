@@ -1,5 +1,5 @@
 """
-algorithms.py file containing the implementation of the algorithms
+asqm_extension.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -17,61 +17,51 @@ Given: A collection of at most 1000 DNA strings (whose combined length does not 
 Return: N50 and N75 for this collection of strings.
 """
 
-from helpers import *
-from parsers import *
-from sorting_algorithms import *
+from asqm import nxx
 from sample_data_generator import *
-from copy import deepcopy
+from outputify import *
 
 
-# sorting algos available to use
-SORTING_ALGOS = {
-    'bubble': bubble_sort
-}
+def extension_metric(data_set, pct=50):
+    """Generate new metric based on nxx and lxx score
+
+    :param data_set: set of contigs
+    :param pct: percentage threshold for N and L scoring
+    :return: new blended metric
+    """
+    nxx_score = nxx(data_set, pct)
+    lxx_score = lxx(data_set, pct)
+
+    max_contig_len = len(max(data_set, key=len))
+
+    # blended_metric = (max_contig_len + nxx_score) / lxx_score
+    blended_metric = (max_contig_len - nxx_score)  # spread between N50 and largest contig
+
+    return blended_metric
 
 
-def nxx(dna_set, pct, sorting_algo=None):
-    """Return the NXX score of a given set of DNA contigs
+def comparative_scoring_analysis(dna_set, pct, ref_genome):
+    """Return metrics for assembly: NXX, UXX, UGXX and L50 and dna set composition
 
     :param dna_set: list of DNA contigs
-    :param pct: percentage threshold for N score
-    :param sorting_algo: algo to use to sort contigs, None is default and uses Python's built-in max function
-    :return: corresponding N score, which is length of contig (L) where pct amount of contigs have length > L
+    :param pct: percentage threshold for UG score
+    :param ref_genome: reference genome
+    :return: all score metrics and data set breakdown
     """
 
-    # base case: if the dna set is emp
-    if not dna_set:
-        return 0
+    scoring_metrics = dict()
 
-    dna_set_copy = deepcopy(dna_set)  # create a copy of the set of contigs to avoid manipulating the original set
-    track_sum = 0  # keeps track of sum so far after looking at each contig
-    curr_contig_len = 0  # length of contig we are currently looking at
+    scoring_metrics[f"N{pct}"] = nxx(dna_set, pct)
+    scoring_metrics[f"U{pct}"] = uxx(dna_set, pct, ref_genome)
+    scoring_metrics[f"UG{pct}"] = ugxx(dna_set, pct, ref_genome)
+    scoring_metrics[f"UG{pct}%"] = round(ugxx(dna_set, pct, ref_genome, pct), 5)
+    scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
+    scoring_metrics[f"EXT{pct}"] = round(extension_metric(dna_set, pct), 5)
+    # percent composition of short, medium and long contigs
+    scoring_metrics["COMP"] = outputify_count_contig_pct(count_contig_pct(dna_set))
 
-    genome_len = get_len_of_genome(dna_set)
+    return scoring_metrics
 
-    # get target based on passed in value of pct
-    target_len = genome_len * (pct / 100)
-
-    if sorting_algo:
-        # sort dna_set based on specified sorting algo
-        sorted_contigs = SORTING_ALGOS[sorting_algo](dna_set_copy)
-        print(sorted_contigs)
-        for contig in sorted_contigs:
-            curr_contig_len = len(contig)
-            track_sum += curr_contig_len
-            if track_sum >= target_len:
-                break
-
-    elif not sorting_algo:
-        # use Python's built-in max function
-        while track_sum <= target_len:
-            # get largest contig in list
-            longest_contig = max(dna_set_copy, key=len)
-            curr_contig_len = len(longest_contig)
-            track_sum += curr_contig_len
-            dna_set_copy.remove(longest_contig)
-
-    return curr_contig_len
 
 def uxx(dna_set, pct, ref_genome):
     """Return the U50 score of a given set of DNA contigs and reference genome
@@ -86,10 +76,10 @@ def uxx(dna_set, pct, ref_genome):
         return 0
 
     # initialization
-    ref_genome = ref_genome[0] # extract the ref genome string 
+    ref_genome = ref_genome  # extract the ref genome string
     coordinates = []
     unique_contig_length = []
-    mask_array = [0 for x in range(len(ref_genome))] # initialize mask array
+    mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
     # sorting contigs from longest to the shortest
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
@@ -98,8 +88,8 @@ def uxx(dna_set, pct, ref_genome):
     for contig in sorted_contigs:
         start = ref_genome.index(contig)
         end = ref_genome.index(contig) + len(contig)
-        coordinates.append((start,end))
-    
+        coordinates.append((start, end))
+
     # finding unique contig length
     for coordinate in coordinates:
         unique_length = 0
@@ -110,14 +100,15 @@ def uxx(dna_set, pct, ref_genome):
                 mask_array[i] = 1
                 unique_length = unique_length + 1
         unique_contig_length.append(unique_length)
-    
+
     # cutoff defined as the sum of length times the threshold precentage
-    cutoff = sum(unique_contig_length) * (pct/100)
+    cutoff = sum(unique_contig_length) * (pct / 100)
     running_sum = 0
     for contig_length in unique_contig_length:
         running_sum = running_sum + contig_length
         if running_sum >= cutoff:
             return contig_length
+
 
 def ugxx(dna_set, pct, ref_genome, percentage=None):
     """Return the UG50 score of a given set of DNA contigs and reference genome
@@ -133,10 +124,10 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
         return 0
 
     # initialization
-    ref_genome = ref_genome[0] # extract the ref genome string 
+    ref_genome = ref_genome  # extract the ref genome string
     coordinates = []
     unique_contig_length = []
-    mask_array = [0 for x in range(len(ref_genome))] # initialize mask array
+    mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
     # sorting contigs from longest to the shortest
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
@@ -145,8 +136,8 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
     for contig in sorted_contigs:
         start = ref_genome.index(contig)
         end = ref_genome.index(contig) + len(contig)
-        coordinates.append((start,end))
-    
+        coordinates.append((start, end))
+
     # finding unique contig length
     for coordinate in coordinates:
         unique_length = 0
@@ -157,23 +148,23 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
                 mask_array[i] = 1
                 unique_length = unique_length + 1
         unique_contig_length.append(unique_length)
-    
+
     # cutoff defined as the the length of ref genome times the threshold percentage
-    cutoff = len(ref_genome) * (pct/100)
+    cutoff = len(ref_genome) * (pct / 100)
     running_sum = 0
 
     for contig_length in unique_contig_length:
         running_sum = running_sum + contig_length
         if running_sum >= cutoff:
             if percentage:
-                return 100*(contig_length/len(ref_genome)) # UG50%
+                return 100 * (contig_length / len(ref_genome))  # UG50%
             else:
-                return contig_length # UG50
+                return contig_length  # UG50
 
 
 def lxx(dna_set, pct):
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
-    cutoff = len(''.join(sorted_contigs)) * (pct/100)
+    cutoff = len(''.join(sorted_contigs)) * (pct / 100)
     running_sum = 0
     ctr = 0
     for contig in sorted_contigs:
@@ -183,40 +174,33 @@ def lxx(dna_set, pct):
             return ctr
 
 
+def experimental_analysis(genome_size, scoring_pct):
+    # compare skews between contig sizes
+
+    ref_genome = generate_random_contig(genome_size)
+
+    # 250 contigs generated with even spread of small, medium and large lengths
+    contig_set_control = generate_contigs_by_percentage_from_genome(ref_genome)
+    # 250 contigs generated with skews of 75% for each of small, medium and large lengths
+    contig_set_sm_skew = generate_contigs_by_percentage_from_genome(ref_genome, 0.75, 0.125, 0.125)
+    contig_set_md_skew = generate_contigs_by_percentage_from_genome(ref_genome, 0.125, 0.75, 0.125)
+    contig_set_lg_skew = generate_contigs_by_percentage_from_genome(ref_genome, 0.125, 0.125, 0.75)
+
+    comparative_scoring_set_control = comparative_scoring_analysis(contig_set_control, scoring_pct, ref_genome)
+    comparative_scoring_set_sm_skew = comparative_scoring_analysis(contig_set_sm_skew, scoring_pct, ref_genome)
+    comparative_scoring_set_md_skew = comparative_scoring_analysis(contig_set_md_skew, scoring_pct, ref_genome)
+    comparative_scoring_set_lg_skew = comparative_scoring_analysis(contig_set_lg_skew, scoring_pct, ref_genome)
+
+    return comparative_scoring_set_control, comparative_scoring_set_sm_skew, comparative_scoring_set_md_skew, \
+        comparative_scoring_set_lg_skew
+
+
 if __name__ == '__main__':
-    # filename = "asmq_sample_data.txt"
-    filename = "rosalind_asmq.txt"
-    filename1 = "sample_ref_genome.txt"
-    dna_set = parse_assembly_data(filename)
-    ref_genome = parse_assembly_data(filename1)
-    print(dna_set)
-    print(ref_genome)
+    # reference genome of len 500
+    ref_genome_size = 500
 
-    l50 = lxx(dna_set, 50)
-    print(l50)
+    # normalized data for 50% scoring
+    scoring_pct = 50
 
-    u50 = uxx(dna_set, 50, ref_genome)
-    print(u50)
-
-    ug50 = ugxx(dna_set, 50, ref_genome)
-    print(ug50)
-
-    ug50p = ugxx(dna_set, 50, ref_genome, True)
-    print(ug50p)
-
-    n50 = nxx(dna_set, 50)
-    print(n50)
-
-    n75 = nxx(dna_set, 75)
-    print(n75)
-
-    # using bubble sort
-    n50 = nxx(dna_set, 50, 'bubble')
-    print(n50)
-
-    # using generated sample data
-    # TODO: need a way to verify this data with unittests, no way to prove our answers without Rosalind sample data
-    generated_set = generate_random_seq_set()
-    n50 = nxx(generated_set, 50)
-    # print(generated_set)
-    print(f"Generated Set N50: {n50}")
+    control, sm, md, lg = experimental_analysis(ref_genome_size, scoring_pct)
+    outputify_comparative_scoring_analysis(control, sm, md, lg)
