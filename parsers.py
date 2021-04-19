@@ -111,3 +111,23 @@ def parse_subs_data(filename):
         lexf_data.append(data_set[i].strip("\n"))
 
     return lexf_data
+
+
+def parse_seto_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    seto_data = list()
+
+    for i in range(len(data_set)):
+        if data_set[i][0] == "{":
+            temp = data_set[i].strip("{").strip("}\n")
+            seto_data.append(temp.split(", "))
+        else:
+            seto_data.append(data_set[i].strip("\n"))
+
+    return seto_data
