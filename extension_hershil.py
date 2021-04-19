@@ -1,9 +1,14 @@
 
-
 from algorithms import *
 
 
 def extension_metric(data_set, pct=50):
+    """Generate new metric based on nxx and lxx score
+
+    :param data_set: set of contigs
+    :param pct: percentage threshold for N and L scoring
+    :return: new blended metric
+    """
     nxx_score = nxx(data_set, pct)
     lxx_score = lxx(data_set, pct)
 
