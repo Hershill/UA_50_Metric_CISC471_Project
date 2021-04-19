@@ -8,7 +8,8 @@ def iprb(k,m,n):
   DD = k/total * ((k-1)/(total-1))*1 + k/total * (m/(total-1))*1 + k/total * (n/(total-1))*1
   Dd = m/total * (k/(total-1))*1 + m/total * ((m-1)/(total-1))*(3/4) + m/total * (n/(total-1))*(2/4)
   dd = n/total * (k/(total-1))*1 + n/total * (m/(total-1))*(2/4) + n/total * ((n-1)/(total-1))*0
-  prob = DD + Dd + dd
+  prob = round(DD + Dd + dd, 5)
+  
   return prob
 
 
