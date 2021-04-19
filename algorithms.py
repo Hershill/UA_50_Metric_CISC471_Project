@@ -170,6 +170,17 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
             else:
                 return contig_length # UG50
 
+def lxx(dna_set, pct):
+    sorted_contigs = sorted(dna_set, key=len, reverse=True)
+    cutoff = len(''.join(sorted_contigs)) * (pct/100)
+    running_sum = 0
+    ctr = 0
+    for contig in sorted_contigs:
+        ctr = ctr + 1
+        running_sum = running_sum + len(contig)
+        if running_sum >= cutoff:
+            return ctr
+
 if __name__ == '__main__':
     filename = "sample_data.txt"
     filename1 = "sample_ref_genome.txt"
@@ -177,6 +188,9 @@ if __name__ == '__main__':
     ref_genome = parse_assembly_data(filename1)
     print(dna_set)
     print(ref_genome)
+
+    l50 = lxx(dna_set, 50)
+    print(l50)
 
     u50 = uxx(dna_set, 50, ref_genome)
     print(u50)
