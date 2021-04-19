@@ -131,3 +131,21 @@ def parse_seto_data(filename):
             seto_data.append(data_set[i].strip("\n"))
 
     return seto_data
+
+
+def parse_tree_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    tree_data = list()
+
+    tree_data.append(data_set[0].strip("\n"))
+
+    for i in range(1, len(data_set)):
+        tree_data.append(data_set[i].strip("\n").split(" "))
+
+    return tree_data
