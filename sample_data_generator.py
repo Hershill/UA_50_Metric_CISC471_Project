@@ -96,7 +96,6 @@ def count_contig_pct(contig_set):
     return [small_pct, med_pct, large_pct, num]
 
 
-
 if __name__ == '__main__':
     # generated_set = generate_random_seq_set()
     # print(generated_set)
