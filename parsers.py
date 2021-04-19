@@ -81,6 +81,17 @@ def parse_hamm_data(filename):
     return hamm_data
 
 
+def parse_gasm_data(filename):
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    gasm_data = list()
+
+    for i in range(len(data_set)):
+        data_set[i] = data_set[i].strip('\n')
+    return data_set
+
+
 def parse_iprb_data(filename):
     """Read the number of homozygous dominant, heterozygous, homozygou recessive
 
