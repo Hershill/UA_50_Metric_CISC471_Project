@@ -67,19 +67,19 @@ def parse_gc_data(filename):
 
 def parse_hamm_data(filename):
     """Read in the RNA sequence data from a file
-
     :param filename: file containing RNA sequence
     :return: RNA sequence as a string
     """
     with open(filename) as file:
         data_set = file.readlines()
-
+    
     hamm_data = list()
 
     for i in range(len(data_set)):
         hamm_data.append(data_set[i].strip("\n"))
 
     return hamm_data
+
 
 def parse_iprb_data(filename):
     """Read the number of homozygous dominant, heterozygous, homozygou recessive
@@ -93,3 +93,55 @@ def parse_iprb_data(filename):
     data_set[0] = data_set[0].replace(" ","")
 
     return data_set[0]
+
+
+def parse_lexf_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+    
+    lexf_data = list()
+
+    for i in range(len(data_set)):
+        lexf_data.append(data_set[i].strip("\n"))
+
+    return lexf_data
+
+
+def parse_subs_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    lexf_data = list()
+
+    for i in range(len(data_set)):
+        lexf_data.append(data_set[i].strip("\n"))
+
+    return lexf_data
+
+
+def parse_seto_data(filename):
+    """Read in the RNA sequence data from a file
+    :param filename: file containing RNA sequence
+    :return: RNA sequence as a string
+    """
+    with open(filename) as file:
+        data_set = file.readlines()
+
+    seto_data = list()
+
+    for i in range(len(data_set)):
+        if data_set[i][0] == "{":
+            temp = data_set[i].strip("{").strip("}\n")
+            seto_data.append(temp.split(", "))
+        else:
+            seto_data.append(data_set[i].strip("\n"))
+
+    return seto_data
