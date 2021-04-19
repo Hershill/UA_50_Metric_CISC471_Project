@@ -1,7 +1,6 @@
 from parsers import parse_gasm_data
 
 def pcov(dna):
-  n = len(dna)
   l = len(dna[0])
   
   for k in range(l-1,1,-1):
