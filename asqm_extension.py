@@ -22,24 +22,70 @@ from sample_data_generator import *
 from outputify import *
 
 
-def extension_metric(data_set, pct=50):
-    """Generate new metric based on nxx and lxx score
+def uaxx(data_set, pct, ref_genome):
+    """Unique alignment metric
 
-    :param data_set: set of contigs
+    :param data_set: set of contigs as list of strings
     :param pct: percentage threshold for N and L scoring
-    :return: new blended metric
+    :param ref_genome: reference genome as a single string
+    :return: UAXX score
     """
-    nxx_score = nxx(data_set, pct)
-    lxx_score = lxx(data_set, pct)
+    uaxx_score = 0
+    aligned_contigs = []
+    coordinates = []
+    unique_contig_length = []
+    mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
-    max_contig_len = len(max(data_set, key=len))
+    for contig in data_set:
+        correct_contigs = find_correct_contigs(contig, ref_genome)
+        aligned_contigs = aligned_contigs + correct_contigs
 
-    # blended_metric = (max_contig_len + nxx_score) / lxx_score
-    blended_metric = (max_contig_len - nxx_score)  # spread between N50 and largest contig
+    # sorting contigs from longest to the shortest
+    sorted_contigs = sorted(aligned_contigs, key=len, reverse=True)
 
-    return blended_metric
+    # finding start and end coordinates of contigs given ref genome
+    for contig in sorted_contigs:
+        start = ref_genome.index(contig)
+        end = ref_genome.index(contig) + len(contig)
+        coordinates.append((start, end))
 
+    # finding unique contig length
+    for coordinate in coordinates:
+        unique_length = 0
+        start = coordinate[0]
+        end = coordinate[1]
+        for i in range(start, end):
+            if mask_array[i] == 0:
+                mask_array[i] = 1
+                unique_length = unique_length + 1
+        unique_contig_length.append(unique_length)
+    
+    unique_contig_length = sorted(unique_contig_length, reverse=True)
 
+    # cutoff defined as the sum of length times the threshold precentage
+    cutoff = sum(unique_contig_length) * (pct / 100)
+    running_sum = 0
+    for contig_length in unique_contig_length:
+        running_sum = running_sum + contig_length
+        if running_sum >= cutoff:
+            return contig_length
+
+def find_correct_contigs(contig, ref_genome):
+    """ Returns the 'correct' set of contigs where each contig is aligned with the ref_genome
+    :param contig: a string of dna 
+    :param ref_genome: reference genome as a string
+    :return: Set of contigs as a list of strings
+    """
+    correct_contigs = []
+    if contig in ref_genome: # contig aligned with ref genome
+        correct_contigs.append(contig)
+        return correct_contigs
+    else: # contig not aligned
+        kmer = len(contig)//2 
+        correct_contigs = correct_contigs + find_correct_contigs(contig[:kmer], ref_genome) # first half of contig
+        correct_contigs = correct_contigs + find_correct_contigs(contig[kmer:], ref_genome) # second half of contig
+    return correct_contigs
+    
 def comparative_scoring_analysis(dna_set, pct, ref_genome):
     """Return metrics for assembly: NXX, UXX, UGXX and L50 and dna set composition
 
@@ -56,7 +102,7 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome):
     scoring_metrics[f"UG{pct}"] = ugxx(dna_set, pct, ref_genome)
     scoring_metrics[f"UG{pct}%"] = round(ugxx(dna_set, pct, ref_genome, pct), 5)
     scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
-    scoring_metrics[f"EXT{pct}"] = round(extension_metric(dna_set, pct), 5)
+    scoring_metrics[f"UA{pct}"] = round(uaxx(dna_set, pct, ref_genome), 5)
     # percent composition of short, medium and long contigs
     contig_info = count_contig_pct(dna_set)
     scoring_metrics["CONTIG_NUM"] = (contig_info[-1])
@@ -70,9 +116,10 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome):
 def uxx(dna_set, pct, ref_genome):
     """Return the U50 score of a given set of DNA contigs and reference genome
 
-    :param dna_set: list of DNA contigs
-    :param pct: percentage threshold for U score
-    :param ref_genome: reference genome
+    :param dna_set: list of DNA contigs with each contig as a single string
+    :param pct: percentage threshold for UG score
+    :param ref_genome: reference genome given as a single string
+    :return: U50 score
     """
 
     # base case: if the dna set is emp
@@ -104,6 +151,8 @@ def uxx(dna_set, pct, ref_genome):
                 mask_array[i] = 1
                 unique_length = unique_length + 1
         unique_contig_length.append(unique_length)
+    
+    unique_contig_length = sorted(unique_contig_length, reverse=True)
 
     # cutoff defined as the sum of length times the threshold precentage
     cutoff = sum(unique_contig_length) * (pct / 100)
@@ -117,10 +166,11 @@ def uxx(dna_set, pct, ref_genome):
 def ugxx(dna_set, pct, ref_genome, percentage=None):
     """Return the UG50 score of a given set of DNA contigs and reference genome
 
-    :param dna_set: list of DNA contigs
+    :param dna_set: list of DNA contigs with each contig as a single string
     :param pct: percentage threshold for UG score
-    :param ref_genome: reference genome
+    :param ref_genome: reference genome given as a single string
     :param percentage: UGxx% statistics instead of UGxx, default is UGxx
+    :return: UG50 score or UG50% score 
     """
 
     # base case: if the dna set is emp
@@ -152,6 +202,8 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
                 mask_array[i] = 1
                 unique_length = unique_length + 1
         unique_contig_length.append(unique_length)
+
+    unique_contig_length = sorted(unique_contig_length, reverse=True)
 
     # cutoff defined as the the length of ref genome times the threshold percentage
     cutoff = len(ref_genome) * (pct / 100)
@@ -205,6 +257,11 @@ if __name__ == '__main__':
 
     # normalized data for 50% scoring
     scoring_pct = 50
+
+    # TEST for UA50
+    # dna =['ACCT','TCTAG','TCG','CG']
+    # ref_genome = 'ACCTAGTCG'
+    # ua50 = uaxx(dna, 50, ref_genome)
 
     control, sm, md, lg = experimental_analysis(ref_genome_size, scoring_pct)
     outputify_comparative_scoring_analysis(control, sm, md, lg)
