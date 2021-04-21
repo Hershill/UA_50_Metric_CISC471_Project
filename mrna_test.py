@@ -22,7 +22,7 @@ from mrna import mrna
 from parsers import parse_dna_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemMRNA(unittest.TestCase):
     """Testing class for the required unittests
     """
 

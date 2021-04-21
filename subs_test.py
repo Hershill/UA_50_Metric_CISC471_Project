@@ -22,7 +22,7 @@ from subs import subs, format_output
 from parsers import parse_subs_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemSUBS(unittest.TestCase):
     """Testing class for the required unittests
     """
 

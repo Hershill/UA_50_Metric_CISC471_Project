@@ -24,7 +24,7 @@ from parsers import parse_gc_data
 kmer_num = 4
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemKMER(unittest.TestCase):
     """Testing class for the required unittests
     """
 

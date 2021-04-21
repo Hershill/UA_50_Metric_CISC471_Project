@@ -22,7 +22,7 @@ from lexf import lexf, format_output
 from parsers import parse_lexf_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemLEXF(unittest.TestCase):
     """Testing class for the required unittests
     """
 

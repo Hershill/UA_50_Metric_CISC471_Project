@@ -22,7 +22,7 @@ from iprb import iprb
 from parsers import parse_iprb_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemIPRB(unittest.TestCase):
     """Testing class for the required unittests
     """
 

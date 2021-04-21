@@ -22,7 +22,7 @@ from tree import tree
 from parsers import parse_tree_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemTREE(unittest.TestCase):
     """Testing class for the required unittests
     """
 

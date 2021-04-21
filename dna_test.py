@@ -22,7 +22,7 @@ from dna import dna
 from parsers import parse_dna_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemDNA(unittest.TestCase):
     """Testing class for the required unittests
     """
 

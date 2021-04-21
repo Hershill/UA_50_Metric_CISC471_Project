@@ -22,7 +22,7 @@ from gc_ import gc
 from parsers import parse_gc_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemGC(unittest.TestCase):
     """Testing class for the required unittests
     """
 

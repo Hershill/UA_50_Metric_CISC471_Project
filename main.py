@@ -14,9 +14,25 @@ Sample Usage:
   $ python -m main main.py
 """
 
-from unittests import TestN50Algorithm
 import unittest
+import os
+
+
+def get_test_suite():
+    """Grab all test files pattern matched with *_test.py
+
+    :return: unittest test suite loaded and ready to run with all unitest files
+    """
+    loader = unittest.TestLoader()
+    start_dir = os.getcwd()
+    test_suite = loader.discover(start_dir, pattern="*_test.py")
+    return test_suite
+
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestN50Algorithm)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    # suite = unittest.TestLoader().loadTestsFromTestCase(TestN50Algorithm)
+    # unittest.TextTestRunner(verbosity=2).run(suite)
+
+    test_suite = get_test_suite()
+    test_runner = unittest.TextTestRunner(verbosity=2)
+    test_runner.run(test_suite)
