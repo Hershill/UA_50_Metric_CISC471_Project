@@ -19,7 +19,7 @@ from rna import rna
 from parsers import parse_dna_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemRNA(unittest.TestCase):
     """Testing class for the required unittests
     """
 

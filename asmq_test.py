@@ -22,7 +22,7 @@ from asmq import asmq
 from parsers import parse_assembly_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemASMQ(unittest.TestCase):
     """Testing class for the required unittests
     """
 

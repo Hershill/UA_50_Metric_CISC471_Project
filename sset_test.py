@@ -22,7 +22,7 @@ from sset import sset
 from parsers import parse_dna_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemSSET(unittest.TestCase):
     """Testing class for the required unittests
     """
 

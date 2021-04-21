@@ -22,7 +22,7 @@ from seto import seto, format_output
 from parsers import parse_seto_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemSETO(unittest.TestCase):
     """Testing class for the required unittests
     """
 

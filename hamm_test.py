@@ -22,7 +22,7 @@ from hamm import hamm
 from parsers import parse_hamm_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemHAMM(unittest.TestCase):
     """Testing class for the required unittests
     """
 

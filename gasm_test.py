@@ -23,7 +23,7 @@ from revc import revc
 from parsers import parse_gasm_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemGASM(unittest.TestCase):
     """Testing class for the required unittests
     """
 

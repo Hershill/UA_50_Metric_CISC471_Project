@@ -22,7 +22,7 @@ from grph import grph, format_output
 from parsers import parse_gc_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemGRPH(unittest.TestCase):
     """Testing class for the required unittests
     """
 

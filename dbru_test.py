@@ -22,7 +22,7 @@ from dbru import dbru, format_output
 from parsers import parse_subs_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemDBRU(unittest.TestCase):
     """Testing class for the required unittests
     """
 

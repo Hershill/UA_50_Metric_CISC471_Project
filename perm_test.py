@@ -22,7 +22,7 @@ from perm import perm, format_output
 from parsers import parse_dna_data
 
 
-class TestProgrammingPartOne(unittest.TestCase):
+class TestProgrammingProblemPERM(unittest.TestCase):
     """Testing class for the required unittests
     """
 
