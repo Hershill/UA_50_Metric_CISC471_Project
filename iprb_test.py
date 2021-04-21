@@ -1,5 +1,5 @@
 """
-iprb_test.py file that runs the unittests for dna.py when the file is called or
+iprb_test.py file that runs the unittests for iprb.py when the file is called or
 run using the python CLI.
 
 Group Project for CISC 471, Computational Biology.
@@ -50,7 +50,7 @@ class TestProgrammingPartOne(unittest.TestCase):
         # make sure solution matches computed result
         self.assertEqual(solution, probability)
 
-    def test_dna_negative(self):
+    def test_iprb_negative(self):
         kmn = parse_iprb_data("rosalind_iprb_4.txt")
         probability = iprb(kmn[0], kmn[1], kmn[2])
         solution = 0.0

@@ -21,7 +21,7 @@ Given: A collection of at most 1000 DNA strings (whose combined length does not 
 Return: N50 and N75 for this collection of strings.
 """
 
-from asqm import nxx
+from asmq import asmq
 from sample_data_generator import *
 from outputify import *
 
@@ -105,7 +105,7 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, err_set=False):
 
     scoring_metrics = dict()
 
-    scoring_metrics[f"N{pct}"] = nxx(dna_set, pct)
+    scoring_metrics[f"N{pct}"] = asmq(dna_set, pct)
     scoring_metrics[f"UA{pct}"] = round(uaxx(dna_set, pct, ref_genome), 5)
 
     if not err_set:

@@ -1,5 +1,5 @@
 """
-gc_test.py file that runs the unittests for dna.py when the file is called or
+gc_test.py file that runs the unittests for gc.py when the file is called or
 run using the python CLI.
 
 Group Project for CISC 471, Computational Biology.
@@ -18,12 +18,8 @@ Sample Usage:
 """
 
 import unittest
-# import importlib
 from gc_ import gc
 from parsers import parse_gc_data
-
-# _gc = importlib.import_module('gc.gc')
-# gc = getattr(gc, "gc")
 
 
 class TestProgrammingPartOne(unittest.TestCase):
@@ -54,7 +50,7 @@ class TestProgrammingPartOne(unittest.TestCase):
         # make sure solution matches computed result
         self.assertEqual(solution, max_gc_content)
 
-    def test_dna_negative(self):
+    def test_gc_negative(self):
         FASTA_data = parse_gc_data("rosalind_gc_4.txt")
         max_gc_content = gc(FASTA_data)
         solution = ['', 0]

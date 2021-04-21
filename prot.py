@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+prot.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,14 +8,23 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
 
-Given: A DNA string s of length at most 1000 nt.
+Translating RNA into Protein
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Problem The 20 commonly occurring amino acids are abbreviated by using 20
+letters from the English alphabet (all letters except for B, J, O, U, X,
+and Z). Protein strings are constructed from these 20 symbols. Henceforth,
+the term genetic string will incorporate protein strings along with DNA
+strings and RNA strings.
+
+The RNA codon table dictates the details regarding the encoding of specific
+codons into the amino acid alphabet.
+
+Given: An RNA string s corresponding to a strand of mRNA (of length at most
+10 kbp).
+
+Return: The protein string encoded by s.
 """
-
 
 from enum import Enum
 from parsers import *
@@ -43,25 +52,16 @@ class RNACoding(Enum):
     GG = {"U": "G", "C": "G", "A": "G", "G": "G"}
 
 
-def parse_data(filename):
-    """Read in the RNA sequence data from a file
-
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
-    """
-    with open(filename) as file:
-        data_set = file.read().replace("\n", "")
-    return data_set
-
-
 def prot(rna):
-    """Read RNA sequences 3 at time and maps to the amino acid the RNA sequence codes for
+    """Read RNA sequences 3 at time and maps to the amino acid that the RNA
+    sequence codes for
 
-    :param rna: RNA string to translate
-    :return: the RNA sequence translated into it's Amino Acid sequence or Peptide string
+    :param rna: RNA string to translate :return: the RNA sequence translated
+                    into it's Amino Acid sequence or Peptide string
     """
 
-    # if the length of the RNA string to translate is less than 3, we cannot translate it into an amino acid
+    # if the length of the RNA string to translate is less than 3, we cannot
+    # translate it into an amino acid
     if len(rna) < 3:
         return None
 
@@ -82,24 +82,10 @@ def prot(rna):
     return amino_seq
 
 
-def format_output(max_gc_content):
-    """ Format output according to problem requirement
-
-    :param max_gc_content: list
-    :return: formatted string output of results
-    """
-
-    # append to string
-    formatted_str = f"{max_gc_content[0]}\n{max_gc_content[1]}"
-
-    return formatted_str
-
-
 if __name__ == '__main__':
-    filename = "prot_sample_data.txt"
+    filename = "rosalind_prot_1.txt"
     # filename = "rosalind_prot.txt"
     rna_string = parse_dna_data(filename)
-    print(rna_string)
+    # print(rna_string)
     peptide = prot(rna_string)
     print(peptide)
-    # print(format_output(max_gc_content))

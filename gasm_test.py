@@ -1,0 +1,142 @@
+"""
+gasm_test.py file that runs the unittests for gasm.py when the file is called or
+run using the python CLI.
+
+Group Project for CISC 471, Computational Biology.
+
+By:
+    - Andrew Ma (20030440)
+    - Rayan Shaikli (20059806)
+    - Hershil Devnani (20001045)
+
+There are two ways to run the program, outlined below. Both methods run the
+unittests.
+
+Sample Usage:
+  $ python -m unittest dna_test.py
+  $ python -m main main.py
+"""
+
+import unittest
+from gasm import gasm
+from revc import revc
+from parsers import parse_gasm_data
+
+
+class TestProgrammingPartOne(unittest.TestCase):
+    """Testing class for the required unittests
+    """
+
+    def test_gasm_positive_a(self):
+        gasm_data = parse_gasm_data("rosalind_gasm_1.txt")
+        gasm_data = list(set(gasm_data + [revc(i) for i in gasm_data]))
+        superstring = gasm(gasm_data)
+        solution = "GATTACA"
+
+        # make sure solution matches computed result
+        # check if computed result is cyclic permutation of solution
+        self.assertIn(superstring, (solution * 2) + (revc(solution) * 2))
+
+    def test_gasm_positive_b(self):
+        gasm_data = parse_gasm_data("rosalind_gasm_2.txt")
+        gasm_data = list(set(gasm_data + [revc(i) for i in gasm_data]))
+        superstring = gasm(gasm_data)
+        solution = "TCATCCTTTTGTGAGTAGCCAAGAGGTTCGGTCGTTGGACACAGTTCATTGGTGGCG" \
+                   "CATCAGTAAGACGCAGGTCAGATAACTATCTTTTCGACCTTCGCCTGGTGGTATCGA" \
+                   "AGGGTCCACATGCTCGGGTTGGCGACACCATGGGTCTATGCTGCACCTTGACTCTAG" \
+                   "TCATGATATTAACGACCACGTACAGTCCGCATTAGGCCTAGAATGTGCCAAGACGAG" \
+                   "AACCATTCATAGATCCTAACTACGTACAAACAGTCCGGAAGCATGGTGCTCATCTCA" \
+                   "ACTAATTTAACTGATTCTGCCCACGACTGGATTCATCTCGCTGCCAAAGGGAGCGCG" \
+                   "CCCATTGTTTGTACTAAATGGCACGTTCTGTACAAGCTATTGTAGAAGCTTTTAAAA" \
+                   "CCACCCCAATCAAGCTCGTTGTTGGAGGGCTCTGAGTGGGTAGTGCCCCAAGGCATG" \
+                   "GCCGCGCCTCATCGGCTAAAGCTTAGTCTCTGAGTGAACAGGCTAGCACGATTTTTG" \
+                   "CTTGTCGCATGGTTACTGTCCGTGTTATACGGACCAGCATTTGGAATAACATATAAA" \
+                   "CACTCCCACCTTGGAGCTTACCGCTCCGCCTCCTACGCCTACTACTGAGGCCCCTTA" \
+                   "ACACGCATGTGCCGATCAATTCGCGTTGGACGGATTCAATGAGCGTTGTTAATCCGT" \
+                   "TCCTTAGTGTAAACTCACGGTCCACCATGGCTCAGGATAATACGATCGGAGGGCCGG" \
+                   "TACGAATATGCACTTGGATGGTCCGCCGATCCAGGCAACCTTCTGGACGGTTCATAC" \
+                   "CTGCGATTTCGCTCTCAAGATCTGGCGTAAGAATTCATGAATCCAAAAACCGCTTCC" \
+                   "CGTAAGAGGATACTAGCTCAGGCCTAACCCCATACCGTTGTGCGAAAAAGAGGAAAA" \
+                   "GATTGATAGACACACAACGCTGCTTACAGCTCTTATCATGCAACAGTCAGAACCTTT" \
+                   "GAATAATTAATCCTCGTCCCTTGGTAGTGACGAGTCGATAATGCTATCCCATATTTC" \
+                   "AGCCCGTCCATGTACTGTAAGTTGTTCATGATACGGCGTCGCGATACAGTTCTTTAA" \
+                   "CCCTAAACTCGTACGTACGTTCGTTCGTAGCAAGTCGTGTCTGAACCTAACTGAATT" \
+                   "TCATATGTGTTATTCTAGCTATGAGCCACCTTTCGTGGGAAATGACCTCCGCTGAAA" \
+                   "TCGCCTTAATACAAATAGGGCAGGTGCCTAGCAGCCCCGAATCATTCGTTGAGCGGT" \
+                   "GCTAGGTGTTTAGACAAGTCGTAAGGCATGGCCTCTTGCGCTATCGACAGCTTCTAT" \
+                   "GTTTCATAATAACTGCATAGGTCGCATCGAACGAAACAAAGCTTCAAACCCAAGAGT" \
+                   "CCCGGTTCGCTTCTTTCATTAATTGTCAAAGCCGTGCGCGCTTACCTAGAAGCCGTG" \
+                   "CGCATCTGATGCCCTTGCCGCTAAATTCTGATTACTTCGGGAGCCCGCAACTAACCC" \
+                   "CACTCTCTAATTGACTTTGCAGAACGAATGCGCTTAGTCCAGTGCCGCACCGAAGAA" \
+                   "GCCCACAACCGCGGGGTACGCTCTAATCGTGCATCCTTTGGCGATCGCGAACCTGCC" \
+                   "GTGAGTGAAGTTATCCAGTTAATGTCAGCCAGTTGGTAATTAGCTCTAGTCCCCTTA" \
+                   "GCATCTGGAATGTGGAACTATGGGTATAAATGTACCCGGTGTCTCATTCTCATTTGA" \
+                   "CCGGGTCGCTCTTCGGTGATGGGGTTTTCCAACGCGAGGCAAACCGACTGAAGACAT" \
+                   "GGCTATAGATGTTCAAAGACATCTATGATCGAGGTTGCGTTAAGCTTGGGTTACTGC" \
+                   "GATCTTACGGGGATCACCGTACGAGCAGCAGCTGCGTAAATACGTGTCGGCCGGCAA" \
+                   "CGAGTGTAGATGTCCGTTCTTGATGCCTATCTCTAATACGGAGCCTTTCTATCGGGT" \
+                   "CGCATACTACGGGGGCTGAGATAACAGCAACAAAGCCCAAGGTGGAGCTCAGGGCCG" \
+                   "GAGGT"
+
+        # make sure solution matches computed result
+        # check if computed result is cyclic permutation of solution
+        self.assertIn(superstring, (solution * 2) + (revc(solution) * 2))
+
+    def test_gasm_positive_c(self):
+        gasm_data = parse_gasm_data("rosalind_gasm_3.txt")
+        gasm_data = list(set(gasm_data + [revc(i) for i in gasm_data]))
+        superstring = gasm(gasm_data)
+        solution = "CGTTTGCCACGCTGGGATGGGAGCGCGTTCTCAACCCTGGTTGCGTGCAGCGCCTGG" \
+                   "ATGTGATCGCCCGCGGTCCTAGGTGTGAGGAGTCGAGTGCCGCCAGGTCCCACCTGT" \
+                   "ACTGTTCACCCAAAGAAGTGAGTAACGGCGATTAATCTTCACGCCACTTCTTCTGGC" \
+                   "GGGGACCATTACCGCTGAGCATTGTCTGGATCGGCTTAGGTGATTACATCGTAAGAC" \
+                   "CCCCTTGGGGAACTCTTTTCGGGCAAACGCGCTTCAGCTTTATTTCGCAACCGACAT" \
+                   "AGCTCTGATCCGCCAACGACAGCTATTCATACCCAGCAGGACATGCCGGACCATTTG" \
+                   "TGGTGGCGAGCATGCAGGCAAATAGACGAATTGAACAACTGCAAGAGGGGGTTTTCG" \
+                   "GCGCATGTTGCAGATTACATTGTGGTAACATCGACGACGCGTCACGAAGGGCAGGTG" \
+                   "GAAAGGCGTGTAGCTTTGATAAGTGAGAGGTTATAGTCCTCTTCGGCATGCAGGTCA" \
+                   "AGATGGAGAGCCAGGTTTGATCAACGTTAGTAGTCAAGCCTAACGCTCTGATAGACA" \
+                   "TACACTAGTCTAACCCAATGGGCCACACCTGAAAGTATGACTCCTTTCCTCTGCATG" \
+                   "ACCCACCCGTGGGGCGCGTACATATGATGTGAGATGTAGTGCGCTCACGCGTCTGTA" \
+                   "ACCATCAATGGCGATAGGACCACACGTCTAACCACGAGGCTGCCACAGGCCGTTTTA" \
+                   "GGAAAAGTCGCGCCGTCTTGACGGAGCGGAACACGATCAGCACGGTGGGCGTTGCCT" \
+                   "TTTCCCAAGGGGTATGCAATCCGCGTCCCGAGCCATCTCGGCGTACCTATCTTGTAG" \
+                   "CGAAGCTGCCGCCTGCTCGATCGCGAAGCCAAGTATTTAGCGAGTACAGAGTAACCA" \
+                   "TCTAGCCGTCACTTCACTCAGTAGGCAAGACACCCTCACATTACGTCGCCTAACTGC" \
+                   "TCATTGCTGAGTCTAACTGTTCGTGAAGCATACAGCCCCTCTGTGTGGGGGTGTATG" \
+                   "GGAGTCGACTACGAGACACTTTAATACATCACCGCTATCCTTTCTGCTGTCGTGCAT" \
+                   "CTCACGCAATAATATTAAGAGATCGCCAAACGCGATTCTACTATTCGTAACAGTTTC" \
+                   "TCCTCTACAACTCAGGTTTCTTGACCATTCACGAAACGGAGATGGTGCTCCGCCGAG" \
+                   "TACACTTGGCTCTGGACTTAATTGGATGAGTATGGCGATGTGGATTTCAGATAATTG" \
+                   "GAGCAGCTACTCGGGCCTGAGAAGTCCGGTTGAGCTGGTTCGGCGTTCGGGTCAATC" \
+                   "GAATAGTTCGCCGGCACCAAATTGGACGTCATCTGTTCCTGTATTTGCATATTCGAG" \
+                   "GCTACTTCTACTTGCCTGCTAGGCGCTGCCGCTCTGAGCGTTACGGTCAGGACCCTG" \
+                   "AGAAGGCTGAGCAACGCTGCCACCCTGCTTCGTTATATACATGGGTTGAACTTGCGA" \
+                   "TCCCTAACCGGCAAGCCTATGACTACAACAATTTCAAAGTTATTGGGTCCTATTATG" \
+                   "GTGGGAACACTTCCTCGCAGCCTCAACAGTTTAAGCCGGATAACATTACTGAGCTAT" \
+                   "AGGCAAATGGCCCTGGTTCTTGCATGATTTTTCCTACCTTCCGCTTTAAGACTTGGC" \
+                   "GACGACGAAGGATTAAAGAGAGCGCTGACCGATCGTGGATCACGACATGGGGCCATT" \
+                   "TCTTATAGGTGTAATAGGAAGATGGTTTGATGGAACATAACAACTGGATTATAGTAT" \
+                   "CCCGAAAATAACATGCGAGATTATACGGAAGGGACCCGTCAGCGGCTCGAGAGGGTT" \
+                   "GGACCAGCTGAGAAATATGATTCTGCTGGGCATCGGTTGGTTTTGAGGGTCAAGCAG" \
+                   "GATTTACCCATATGGTGGAGGATGACAGCGCTCTTAGGGTACTTCGCCTTACAAGGG" \
+                   "CCTTCCTCATAATGTCACAATATTCGGAGCCCATTGAAACTCAGGATGTGCAGTTTT" \
+                   "TCTGC"
+
+        # make sure solution matches computed result
+        # check if computed result is cyclic permutation of solution
+        self.assertIn(superstring, (solution * 2) + (revc(solution) * 2))
+
+    def test_gasm_negative(self):
+        gasm_data = parse_gasm_data("rosalind_gasm_4.txt")
+        gasm_data = list(set(gasm_data + [revc(i) for i in gasm_data]))
+        superstring = gasm(gasm_data)
+        solution = ""
+
+        # make sure solution matches computed result
+        # check if computed result is cyclic permutation of solution
+        self.assertIn(superstring, (solution * 2) + (revc(solution) * 2))
+
+
+if __name__ == '__main__':
+    unittest.main()

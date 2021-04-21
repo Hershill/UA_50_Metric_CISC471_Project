@@ -79,7 +79,7 @@ class TestProgrammingPartOne(unittest.TestCase):
         # make sure solution matches computed result
         self.assertEqual(solution, rna_str)
 
-    def test_dna_negative(self):
+    def test_rna_negative(self):
         dna_read = parse_dna_data("rosalind_rna_4.txt")
         rna_str = rna(dna_read)
         solution = ""

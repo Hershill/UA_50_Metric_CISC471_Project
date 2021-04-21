@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+dbru.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,30 +8,37 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Constructing a De Bruijn Graph
 
-Given: A DNA string s of length at most 1000 nt.
+Given: A collection of up to 1000 (possibly repeating) DNA strings of equal
+length (not exceeding 50 bp) corresponding to a set S of (k+1)-mers.
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Return: The adjacency list corresponding to the de Bruijn graph corresponding
+to S∪Src.
 """
-
 
 from revc import *
 from parsers import *
-import copy
 
 
 def dbru(dbru_set, incl_revc=True):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return the adjacency list corresponding to the de Bruijn graph of the
+    union of the set of contigs and their reverse complements
+
+    :param dbru_set: string of nucleotides
+    :param incl_revc: boolean to set whether to include the reverse complements
+    :return: an adjacency list
     """
+
+    # base case
+    if not dbru_set:
+        return []
 
     k_1 = len(dbru_set[0]) - 1
 
     # all unique (k−1)-mers occurring as a prefix or suffix in dbru_set
-    # create set of (k-1)-mers occurring as a prefix or suffix of contigs in dbru_set
+    # create set of (k-1)-mers occurring as a prefix or suffix of contigs in
+    # dbru_set
 
     dbru_graph = list()
     revc_set = list()
@@ -54,9 +61,9 @@ def dbru(dbru_set, incl_revc=True):
 
 
 def format_output(dbru_graph):
-    """ Format output according to problem requirement
+    """Format output according to problem requirement
 
-    :param max_gc_content: list
+    :param dbru_graph: list
     :return: formatted string output of results
     """
 
@@ -69,10 +76,9 @@ def format_output(dbru_graph):
 
 
 if __name__ == '__main__':
-    filename = "dbru_sample_data.txt"
-    # filename = "rosalind_dbru.txt"
+    filename = "rosalind_dbru_2.txt"
     dbru_data = parse_subs_data(filename)
     # print(dbru_data)
     dbru_graph = dbru(dbru_data)
-    # print(dbru_graph)
+    print(dbru_graph)
     print(format_output(dbru_graph))

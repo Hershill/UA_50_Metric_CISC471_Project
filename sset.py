@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+sset.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,23 +8,21 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Counting Subsets
 
-Given: A DNA string s of length at most 1000 nt.
+Given: A positive integer n (n≤1000).
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Return: The total number of subsets of {1,2,…,n} modulo 1,000,000.
 """
 
-
 from parsers import *
-import itertools
 
 
 def sset(input_num):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return number of subsets given a set of size input_num
+
+    :param input_num: size of a set
+    :return: number of subsets of size input_num
     """
 
     if input_num > 1000:
@@ -37,9 +35,7 @@ def sset(input_num):
 
 
 if __name__ == '__main__':
-    # filename = "sset_sample_data.txt"
-    filename = "rosalind_sset.txt"
+    filename = "rosalind_sset_1.txt"
     sset_number = int(parse_dna_data(filename))
-    # print(sset_number)
     subsets = sset(sset_number)
     print(subsets)

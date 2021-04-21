@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+perm.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,40 +8,45 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Enumerating Gene Orders
 
-Given: A DNA string s of length at most 1000 nt.
+Problem
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+A permutation of length n is an ordering of the positive integers {1,2,…,
+n}. For example, π=(5,3,2,1,4) is a permutation of length 5.
+
+Given: A positive integer n≤7.
+
+Return: The total number of permutations of length n, followed by a list of
+all such permutations (in any order).
 """
 
-
-from parsers import *
+from parsers import parse_dna_data
 import itertools
 
 
 def perm(input_num):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return the number of permutations of a set of length input_num
+
+    :param input_num: length of permutation
+    :return: number of permutation for a set of size input_num
     """
 
-    permutations = list()
+    perms = list()
 
     if input_num > 7:
-        return permutations
+        return perms
 
     number_set = list(range(1, input_num + 1))
-    permuations = list(itertools.permutations(number_set))
+    perms = list(itertools.permutations(number_set))
 
-    return permuations
+    return perms
 
 
 def format_output(permutation_set):
-    """ Format output according to problem requirement
+    """Format output according to problem requirement
 
-    :param max_gc_content: list
+    :param permutation_set: list of tuples containing all sets of permutations
     :return: formatted string output of results
     """
 
@@ -56,10 +61,9 @@ def format_output(permutation_set):
 
 
 if __name__ == '__main__':
-    # filename = "perm_sample_data.txt"
-    filename = "rosalind_perm.txt"
+    filename = "rosalind_perm_2.txt"
     perm_number = int(parse_dna_data(filename))
     # print(perm_number)
-    permutation_set = perm(perm_number)
-    # print(permutation_set)
-    print(format_output(permutation_set))
+    permutations = perm(perm_number)
+    print(permutations)
+    # print(format_output(permutations))

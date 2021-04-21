@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+set0.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,47 +8,62 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Introduction to Set Operations
 
-Given: A DNA string s of length at most 1000 nt.
+Problem
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+If A and B are sets, then their union A∪B is the set comprising any elements
+in either A or B; their intersection A∩B is the set of elements in both A and
+B; and their set difference A−B is the set of elements in A but not in B.
+
+Furthermore, if A is a subset of another set U, then the set complement of A
+with respect to U is defined as the set Ac=U−A. See the Sample sections below
+for examples.
+
+Given: A positive integer n (n≤20,000) and two subsets A and B of {1,2,…,n}.
+
+Return: Six sets: A∪B, A∩B, A−B, B−A, Ac, and Bc (where set complements are
+taken with respect to {1,2,…,n}).
 """
 
 
-from parsers import *
+from parsers import parse_seto_data
 
 
 def seto(num, set_a, set_b):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return 6 sets of A∪B, A∩B, A−B, B−A, Ac, and Bc
+
+    :param num: maximum size of a set
+    :param set_a: first set as a list of ints
+    :param set_b: second set as a list of ints
+    :return: the set operations performed between set_a and set_b
     """
+
+    # base case
+    if set_a == [''] or set_b == ['']:
+        return []
+
+    set_a = [int(i) for i in set_a]
+    set_b = [int(i) for i in set_b]
 
     all_sets = list()
 
+
     # set 1 - union
     set_1 = get_set_union(set_a, set_b)
-    # print(set_1)
 
     # set 2 - intersect
     set_2 = get_set_intersect(set_a, set_b)
-    # print(set_2)
 
     # set 3 and 4 - difference
     set_3 = get_set_diff(set_a, set_b)
-    # print(set_3)
 
     set_4 = get_set_diff(set_b, set_a)
-    # print(set_4)
 
     # set 5 and 6 - complement
     set_5 = get_set_complement(set_a, num)
-    # print(set_5)
 
     set_6 = get_set_complement(set_b, num)
-    # print(set_6)
 
     all_sets = [set_1, set_2, set_3, set_4, set_5, set_6]
 
@@ -56,6 +71,13 @@ def seto(num, set_a, set_b):
 
 
 def get_set_union(a, b):
+    """Return the set union of a and b
+
+    :param a: set a
+    :param b: set b
+    :return: union of set a and b
+    """
+
     union = list()
 
     for i in a:
@@ -72,6 +94,13 @@ def get_set_union(a, b):
 
 
 def get_set_intersect(a, b):
+    """Return the set intersect of a and b
+
+    :param a: set a
+    :param b: set b
+    :return: intersect of set a and b
+    """
+
     intersect = list()
 
     for i in a:
@@ -85,6 +114,13 @@ def get_set_intersect(a, b):
 
 
 def get_set_diff(a, b):
+    """Return the set difference of a and b
+
+    :param a: set a
+    :param b: set b
+    :return: difference of set a and b
+    """
+
     difference = list()
 
     for i in a:
@@ -97,6 +133,13 @@ def get_set_diff(a, b):
 
 
 def get_set_complement(a, num):
+    """Return the set complement of a
+
+    :param a: set a
+    :param num: maximum size of set
+    :return: complement of set a
+    """
+
     total_set = list(range(1, num + 1))
 
     complement = list()
@@ -111,9 +154,9 @@ def get_set_complement(a, num):
 
 
 def format_output(sets):
-    """ Format output according to problem requirement
+    """Format output according to problem requirement
 
-    :param max_gc_content: list
+    :param sets: list of sets
     :return: formatted string output of results
     """
 
@@ -129,15 +172,11 @@ def format_output(sets):
 
 
 if __name__ == '__main__':
-    # filename = "seto_sample_data.txt"
-    filename = "rosalind_seto.txt"
+    filename = "rosalind_seto_2.txt"
     seto_data = parse_seto_data(filename)
     # print(seto_data)
-
-    set_a = [int(i) for i in seto_data[1]]
-    set_b = [int(i) for i in seto_data[2]]
-
-    output_sets = seto(int(seto_data[0]), set_a, set_b)
-
-    # print(output_sets)
+    set_one = seto_data[1]
+    set_two = seto_data[2]
+    output_sets = seto(int(seto_data[0]), set_one, set_two)
+    print(output_sets)
     print(format_output(output_sets))
