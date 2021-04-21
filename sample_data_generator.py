@@ -63,7 +63,8 @@ def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3
         rand_len = random.randrange(SMALL_RANGE[0], SMALL_RANGE[1])
         rand_index = random.randrange(0, genome_len - rand_len)
         contig = ref_genome[rand_index:rand_index + rand_len]
-        index_set.append((rand_index, rand_index + rand_len))
+        # index_set.append((rand_index, rand_index + rand_len))
+        index_set.append([contig, (rand_index, rand_index + rand_len)])
         small_set.append(contig)
 
     # threshold for medium 90-175
@@ -72,7 +73,8 @@ def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3
         rand_len = random.randrange(MEDIUM_RANGE[0], MEDIUM_RANGE[1])
         rand_index = random.randrange(0, genome_len - rand_len)
         contig = ref_genome[rand_index:rand_index + rand_len]
-        index_set.append((rand_index, rand_index + rand_len))
+        # index_set.append((rand_index, rand_index + rand_len))
+        index_set.append([contig, (rand_index, rand_index + rand_len)])
         med_set.append(contig)
 
     # threshold for large 175-325
@@ -81,7 +83,8 @@ def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3
         rand_len = random.randrange(LARGE_RANGE[0], LARGE_RANGE[1])
         rand_index = random.randrange(0, genome_len - rand_len)
         contig = ref_genome[rand_index:rand_index + rand_len]
-        index_set.append((rand_index, rand_index + rand_len))
+        # index_set.append((rand_index, rand_index + rand_len))
+        index_set.append([contig, (rand_index, rand_index + rand_len)])
         large_set.append(contig)
 
     total_set = small_set + med_set + large_set
