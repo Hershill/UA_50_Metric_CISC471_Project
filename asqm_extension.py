@@ -26,7 +26,7 @@ from sample_data_generator import *
 from outputify import *
 
 
-def uaxx(data_set, pct, ref_genome):
+def uaxx(data_set, pct, ref_genome, index_set):
     """Unique alignment metric
 
     :param data_set: set of contigs as list of strings
@@ -36,28 +36,36 @@ def uaxx(data_set, pct, ref_genome):
     """
     uaxx_score = int()
     aligned_contigs = []
-    coordinates = []
+    aligned_index_set = []
+    new_contigs = []
     unique_contig_length = []
     mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
     for contig in data_set:
         correct_contigs = find_correct_contigs(contig, ref_genome)
+        # error joint split into contig blocks
+        if len(correct_contigs) > 1:
+            new_contigs = new_contigs + correct_contigs # keep track of the new contig blocks
         aligned_contigs = aligned_contigs + correct_contigs
+
+    # aligned_index_set only contains correct aligned contigs
+    for index in index_set:
+        if index[0] in aligned_contigs:
+            aligned_index_set.append(index)
+
+    # add index for newly added aligned contig blocks
+    for new_contig in new_contigs:
+        aligned_index_set.append([new_contig,(ref_genome.index(new_contig),ref_genome.index(new_contig)+len(new_contig))])
 
     # sorting contigs from longest to the shortest
     sorted_contigs = sorted(aligned_contigs, key=len, reverse=True)
-
-    # finding start and end coordinates of contigs given ref genome
-    for contig in sorted_contigs:
-        start = ref_genome.index(contig)
-        end = ref_genome.index(contig) + len(contig)
-        coordinates.append((start, end))
+    sorted_index = sorted(aligned_index_set, key=lambda x: len(x[0]), reverse=True)
 
     # finding unique contig length
-    for coordinate in coordinates:
+    for j in range(len(sorted_contigs)):
         unique_length = 0
-        start = coordinate[0]
-        end = coordinate[1]
+        start = sorted_index[j][1][0]
+        end = sorted_index[j][1][1]
         for i in range(start, end):
             if mask_array[i] == 0:
                 mask_array[i] = 1
@@ -93,7 +101,7 @@ def find_correct_contigs(contig, ref_genome):
     return correct_contigs
 
 
-def comparative_scoring_analysis(dna_set, pct, ref_genome, err_set=False):
+def comparative_scoring_analysis(dna_set, pct, ref_genome, index_set, err_set=False):
     """Return metrics for assembly: NXX, UXX, UGXX and L50 and dna set composition
 
     :param dna_set: list of DNA contigs
@@ -106,12 +114,12 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, err_set=False):
     scoring_metrics = dict()
 
     scoring_metrics[f"N{pct}"] = nxx(dna_set, pct)
-    scoring_metrics[f"UA{pct}"] = round(uaxx(dna_set, pct, ref_genome), 5)
+    scoring_metrics[f"UA{pct}"] = round(uaxx(dna_set, pct, ref_genome, index_set), 5)
 
     if not err_set:
-        scoring_metrics[f"U{pct}"] = uxx(dna_set, pct, ref_genome)
+        scoring_metrics[f"U{pct}"] = uxx(dna_set, pct, ref_genome, index_set)
         # scoring_metrics[f"UG{pct}"] = ugxx(dna_set, pct, ref_genome)
-        scoring_metrics[f"UG{pct}%"] = round(ugxx(dna_set, pct, ref_genome, pct), 5)
+        scoring_metrics[f"UG{pct}%"] = round(ugxx(dna_set, pct, ref_genome, index_set, pct), 5)
         scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
 
     # percent composition of short, medium and long contigs
@@ -124,7 +132,7 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, err_set=False):
     return scoring_metrics
 
 
-def uxx(dna_set, pct, ref_genome):
+def uxx(dna_set, pct, ref_genome, index_set):
     """Return the U50 score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs with each contig as a single string
@@ -138,25 +146,18 @@ def uxx(dna_set, pct, ref_genome):
         return 0
 
     # initialization
-    ref_genome = ref_genome  # extract the ref genome string
-    coordinates = []
     unique_contig_length = []
     mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
     # sorting contigs from longest to the shortest
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
-
-    # finding start and end coordinates of contigs given ref genome
-    for contig in sorted_contigs:
-        start = ref_genome.index(contig)
-        end = ref_genome.index(contig) + len(contig)
-        coordinates.append((start, end))
+    sorted_index = sorted(index_set, key=lambda x: len(x[0]), reverse=True)
 
     # finding unique contig length
-    for coordinate in coordinates:
+    for j in range(len(sorted_contigs)):
         unique_length = 0
-        start = coordinate[0]
-        end = coordinate[1]
+        start = sorted_index[j][1][0]
+        end = sorted_index[j][1][1]
         for i in range(start, end):
             if mask_array[i] == 0:
                 mask_array[i] = 1
@@ -174,7 +175,7 @@ def uxx(dna_set, pct, ref_genome):
             return contig_length
 
 
-def ugxx(dna_set, pct, ref_genome, percentage=None):
+def ugxx(dna_set, pct, ref_genome, index_set, percentage=None):
     """Return the UG50 score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs with each contig as a single string
@@ -189,25 +190,18 @@ def ugxx(dna_set, pct, ref_genome, percentage=None):
         return 0
 
     # initialization
-    ref_genome = ref_genome  # extract the ref genome string
-    coordinates = []
     unique_contig_length = []
     mask_array = [0 for x in range(len(ref_genome))]  # initialize mask array
 
     # sorting contigs from longest to the shortest
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
-
-    # finding start and end coordinates of contigs given ref genome
-    for contig in sorted_contigs:
-        start = ref_genome.index(contig)
-        end = ref_genome.index(contig) + len(contig)
-        coordinates.append((start, end))
+    sorted_index = sorted(index_set, key=lambda x: len(x[0]), reverse=True)
 
     # finding unique contig length
-    for coordinate in coordinates:
+    for j in range(len(sorted_contigs)):
         unique_length = 0
-        start = coordinate[0]
-        end = coordinate[1]
+        start = sorted_index[j][1][0]
+        end = sorted_index[j][1][1]
         for i in range(start, end):
             if mask_array[i] == 0:
                 mask_array[i] = 1
@@ -257,17 +251,17 @@ def experimental_analysis(genome_size, scoring_pct, contig_set_size):
     contig_set_lg_skew, indx_set_lg = \
         generate_contigs_by_percentage_from_genome(ref_genome, 0.125, 0.125, 0.75, num=contig_set_size)
 
-    comparative_scoring_set_control = comparative_scoring_analysis(contig_set_control, scoring_pct, ref_genome)
-    comparative_scoring_set_sm_skew = comparative_scoring_analysis(contig_set_sm_skew, scoring_pct, ref_genome)
-    comparative_scoring_set_md_skew = comparative_scoring_analysis(contig_set_md_skew, scoring_pct, ref_genome)
-    comparative_scoring_set_lg_skew = comparative_scoring_analysis(contig_set_lg_skew, scoring_pct, ref_genome)
+    comparative_scoring_set_control = comparative_scoring_analysis(contig_set_control, scoring_pct, ref_genome, indx_set_control)
+    comparative_scoring_set_sm_skew = comparative_scoring_analysis(contig_set_sm_skew, scoring_pct, ref_genome, indx_set_sm)
+    comparative_scoring_set_md_skew = comparative_scoring_analysis(contig_set_md_skew, scoring_pct, ref_genome, indx_set_md)
+    comparative_scoring_set_lg_skew = comparative_scoring_analysis(contig_set_lg_skew, scoring_pct, ref_genome, indx_set_lg)
 
     return comparative_scoring_set_control, comparative_scoring_set_sm_skew, comparative_scoring_set_md_skew, \
         comparative_scoring_set_lg_skew
 
 
-def experimental_analysis_with_error(contig_set, scoring_pct):
-    comparative_scoring_set_control = comparative_scoring_analysis(contig_set, scoring_pct, ref_genome, err_set=True)
+def experimental_analysis_with_error(contig_set, scoring_pct, index_set):
+    comparative_scoring_set_control = comparative_scoring_analysis(contig_set, scoring_pct, ref_genome, index_set, err_set=True)
 
     return comparative_scoring_set_control
 
@@ -300,7 +294,7 @@ if __name__ == '__main__':
 
     for pct_err in pct_errs:
         contig_error_set = generate_error_sample(contig_set_control, ref_genome, pct_error=pct_err)
-        error_results = experimental_analysis_with_error(contig_error_set, scoring_pct)
+        error_results = experimental_analysis_with_error(contig_error_set, scoring_pct, index_set_control)
         outputify_comparative_scoring_analysis_with_errors(error_results, scoring_pct, pct_err)
 
     # TEST for UA50
