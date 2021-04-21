@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+rna.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,12 +8,18 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Transcribing DNA into RNA
 
-Given: A DNA string s of length at most 1000 nt.
+Problem
+An RNA string is a string formed from the alphabet containing 'A', 'C', 'G',
+and 'U'.
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Given a DNA string t corresponding to a coding strand, its transcribed RNA
+string u is formed by replacing all occurrences of 'T' in t with 'U' in u.
+
+Given: A DNA string t having length at most 1000 nt.
+
+Return: The transcribed RNA string of t.
 """
 
 
@@ -21,24 +27,25 @@ from parsers import *
 
 
 def rna(dna_str):
-    """Return dict of counts of each nucleotide in DNA set
+    """Return transcribed DNA
+
     :param dna_str: string of nucleotides
-    :return: dict of count of nucleotides
+    :return: RNA transcription of the dna_str
     """
 
     transcribed_rna_str = dna_str
 
     for i in range(len(dna_str)):
         if dna_str[i] == "T":
-            transcribed_rna_str = transcribed_rna_str[:i] + "U" + transcribed_rna_str[i+1:]
+            transcribed_rna_str = transcribed_rna_str[:i] + "U" + \
+                                  transcribed_rna_str[i+1:]
 
     return transcribed_rna_str
 
 
 if __name__ == '__main__':
-    # filename = "rna_sample_data.txt"
-    filename = "rosalind_rna.txt"
-    dna_str = parse_dna_data(filename)
-    print(dna_str)
-    transcribed_str = rna(dna_str)
+    filename = "rosalind_rna_1.txt"
+    dna_read = parse_dna_data(filename)
+    # print(dna_str)
+    transcribed_str = rna(dna_read)
     print(transcribed_str)
