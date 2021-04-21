@@ -287,8 +287,8 @@ if __name__ == '__main__':
 
     # generate contig set
 
-    # control, sm, md, lg = experimental_analysis(ref_genome_size, scoring_pct, contig_set_size)
-    # outputify_comparative_scoring_analysis(control, sm, md, lg)
+    control, sm, md, lg = experimental_analysis(ref_genome_size, scoring_pct, contig_set_size)
+    outputify_comparative_scoring_analysis(control, sm, md, lg)
 
     pct_errs = [0.05, 0.1, .25, .50]
 
