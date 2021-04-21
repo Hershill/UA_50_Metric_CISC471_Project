@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+mrna.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,16 +8,16 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Inferring mRNA from Protein
 
-Given: A DNA string s of length at most 1000 nt.
+Given: A protein string of length at most 1000 aa.
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Return: The total number of different RNA strings from which the protein
+could have been translated, modulo 1,000,000. (Don't neglect the importance
+of the stop codon in protein translation.)
 """
 
-from parsers import *
-
+from parsers import parse_dna_data
 from enum import Enum
 
 
@@ -49,10 +49,16 @@ class PeptideReverseCodingCount(Enum):
 
 
 def mrna(peptide_seq):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return the number of reverse translated potential RNA strings given a
+    peptide
+
+    :param peptide_seq: a peptide sequence as a string
+    :return: number of potential RNA sequences that translate to peptide_seq
     """
+
+    # base case
+    if not peptide_seq:
+        return 0
 
     count = 1
 
@@ -67,22 +73,8 @@ def mrna(peptide_seq):
     return count
 
 
-def format_output(max_gc_content):
-    """ Format output according to problem requirement
-
-    :param max_gc_content: list
-    :return: formatted string output of results
-    """
-
-    # append to string
-    formatted_str = f"{max_gc_content[0]}\n{max_gc_content[1]}"
-
-    return formatted_str
-
-
 if __name__ == '__main__':
-    # filename = "mrna_sample_data.txt"
-    filename = "rosalind_mrna.txt"
+    filename = "rosalind_mrna_1.txt"
     mrna_data = parse_dna_data(filename)
     # print(mrna_data)
     combinations = mrna(mrna_data)

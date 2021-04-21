@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+tree.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,23 +8,29 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Completing a Tree
 
-Given: A DNA string s of length at most 1000 nt.
+Given: A positive integer n (n≤1000) and an adjacency list corresponding to a
+graph on n nodes that contains no cycles.
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Return: The minimum number of edges that can be added to the graph to produce
+a tree.
 """
 
-
-from parsers import *
+from parsers import parse_tree_data
 
 
 def tree(num_nodes, graph_data):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+    """Return number of nodes needed to be added to generate a tree
+
+    :param graph_data: data of the adjacency list of the graph
+    :param num_nodes: number of nodes in the graph
+    :return: number of nodes needed to be added to turn graph into a tree
     """
+
+    # base case
+    if num_nodes == 0:
+        return 0
 
     graph_data_ints = list()
     set_range = list(range(1, num_nodes + 1))
@@ -54,23 +60,9 @@ def tree(num_nodes, graph_data):
     return missing_nodes
 
 
-def format_output(max_gc_content):
-    """ Format output according to problem requirement
-
-    :param max_gc_content: list
-    :return: formatted string output of results
-    """
-
-    # append to string
-    formatted_str = f"{max_gc_content[0]}\n{max_gc_content[1]}"
-
-    return formatted_str
-
-
 if __name__ == '__main__':
-    filename = "rosalind_tree.txt"
-    # filename = "rosalind_gc.txt"
+    filename = "rosalind_tree_4.txt"
     tree_data = parse_tree_data(filename)
-    print(tree_data)
-    missing_nodes = tree(int(tree_data[0]), tree_data[1:])
-    print(missing_nodes)
+    # print(tree_data)
+    num_missing_nodes = tree(int(tree_data[0]), tree_data[1:])
+    print(num_missing_nodes)

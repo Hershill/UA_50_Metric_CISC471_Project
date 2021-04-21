@@ -21,7 +21,7 @@ Given: A collection of at most 1000 DNA strings (whose combined length does not 
 Return: N50 and N75 for this collection of strings.
 """
 
-from asqm import nxx
+from asmq import asmq
 from sample_data_generator import *
 from outputify import *
 

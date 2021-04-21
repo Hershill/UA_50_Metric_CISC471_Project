@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+splc.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,47 +8,55 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+RNA Splicing
 
-Given: A DNA string s of length at most 1000 nt.
+Problem After identifying the exons and introns of an RNA string, we only
+need to delete the introns and concatenate the exons to form a new string
+ready for translation.
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Given: A DNA string s (of length at most 1 kbp) and a collection of
+substrings of s acting as introns. All strings are given in FASTA format.
+
+Return: A protein string resulting from transcribing and translating the
+exons of s. (Note: Only one solution will exist for the dataset provided.)
 """
 
 
-from prot import *
-from parsers import *
+from prot import prot
+from parsers import parse_gc_data
 import copy
 
 
-def splc(FASTA_sets):
-    """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+def splc(fasta_sets):
+    """Return the spliced RNA string given FASTA data
+
+    :param FASTA_sets: FASTA set of DNA and intron data
+    :return: spliced RNA string
     """
 
-    max_gc = dict()
+    # base case
+    if not fasta_sets:
+        return ""
 
-    for key, value in FASTA_sets.items():
-        max_gc[key] = gc_content(value)
+    rna, introns = get_rna_and_introns(fasta_sets)
+    rna_spliced = splice_rna(rna, introns)
+    rna_converted = convert_dna_to_rna(rna_spliced)
 
-    print(max_gc)
-
-    return [max(max_gc, key=max_gc.get), max_gc[max(max_gc, key=max_gc.get)]]
+    return rna_converted
 
 
 def get_rna_and_introns(FASTA_data_set):
+    """Determine the RNA and Introns from the FASTA data
+
+    :param FASTA_data_set: FASTA data containing RNA and Intron sequences
+    :return: the RNA string and list of Introns
+    """
 
     FASTA_data_set_copy = copy.deepcopy(FASTA_data_set)
 
-    rna = ""
+    rna = str()
     introns = list()
-
     rna = sorted(FASTA_data_set_copy.values(), key=len)[-1]
-    # rna = FASTA_data_set_copy[rna_key]
-    #
-    # del FASTA_data_set_copy[rna_key]
 
     for key, value in FASTA_data_set_copy.items():
         if value != rna:
@@ -58,6 +66,13 @@ def get_rna_and_introns(FASTA_data_set):
 
 
 def splice_rna(rna, introns):
+    """Splice the RNA given Introns
+
+    :param rna: RNA string
+    :param introns: list of Introns
+    :return: the splcied RNA string
+    """
+
     spliced_rna = rna
     for i in introns:
         index = spliced_rna.find(i)
@@ -67,25 +82,17 @@ def splice_rna(rna, introns):
 
 
 def convert_dna_to_rna(dna):
+    """Convert DNA to RNA
+
+    :param dna: DNA string
+    :return: RNA translated string
+    """
+
     return dna.replace("T", "U")
 
 
-def gc_content(string):
-
-    string_length = len(string)
-    gc_count = 0
-
-    for i in string:
-        if i == "G" or i == "C":
-            gc_count += 1
-
-    gc_pct = (gc_count/string_length) * 100
-
-    return gc_pct
-
-
 def format_output(max_gc_content):
-    """ Format output according to problem requirement
+    """Format output according to problem requirement
 
     :param max_gc_content: list
     :return: formatted string output of results
@@ -98,17 +105,9 @@ def format_output(max_gc_content):
 
 
 if __name__ == '__main__':
-    filename = "splc_sample_data.txt"
-    # filename = "rosalind_splc.txt"
-    # solution:     rna = "AUGUACAGUAAGACUCGAGCUGUAACGCAUGAUACAGUCAUGUACACAUCUGAAAGUUUAGAACAUCAGGCAUAUAUUCAUGCAUGGUGCAUGACAAAGCUCGUAGCUCUUUUGGUACGGAACUCCACCGGGCAAGCUUCAGCCAAAUGGGACUCGGGAGAAAGAUAUCCAGACAGCCCGGAAGGACACGUACCCAGGAGGUACUUGUUAUCCUUAGCUCUGAGCGGCAGGAAAAUUUCUCAAAUUCUGAAUGAAGCAGGGGGAUGCGUAGCCCGUCUUUACCCAUUUAUAUACUCUACGCGAAAGGAAGUGCACGAUGAAGAUGUUAUGAUUGCAAGUGGUGCAGACCAGAUAAGGGACUUCUUUAAGAUGAACGGCAACCUAUGCGGCUCAACCCCGCCUGAGCCGCCCAACUGUUAUACGCAUCGGAGUGUCAUAUGUUUAAUAGCGGUUCCUAGCGUGAGAAGAGGGAGGUGA"
+    filename = "rosalind_splc_4.txt"
     FASTA_data = parse_gc_data(filename)
     # print(FASTA_data)
-    rna, introns = get_rna_and_introns(FASTA_data)
-    # print(rna)
-    # print(introns)
-    rna_spliced = splice_rna(rna, introns)
-    # print(rna_spliced)
-    rna_converted = convert_dna_to_rna(rna_spliced)
-    # print(rna_converted)
-    peptide = prot(rna_converted)
+    spliced_rna_str = splc(FASTA_data)
+    peptide = prot(spliced_rna_str)
     print(peptide)

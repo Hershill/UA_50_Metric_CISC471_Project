@@ -1,5 +1,5 @@
 """
-dna.py file containing the implementation of the algorithms
+lexf.py file containing the implementation of the algorithms
 
 Group Project for CISC 471, Computational Biology.
 
@@ -8,23 +8,26 @@ By:
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
 
-Counting DNA Nucleotides Problem
+Enumerating k-mers Lexicographically
 
-Given: A DNA string s of length at most 1000 nt.
+Given: A collection of at most 10 symbols defining an ordered alphabet,
+and a positive integer n (n≤10).
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and
-'T' occur in s.
+Return: All strings of length n that can be formed from the alphabet, ordered
+lexicographically (use the standard order of symbols in the English
+alphabet).
 """
 
-
-from parsers import *
+from parsers import parse_lexf_data
 import itertools
 
 
 def lexf(alphabet, num):
     """Return dict of counts of each nucleotide in DNA set
-    :param FASTA_sets: string of nucleotides
-    :return: dict of count of nucleotides
+
+    :param alphabet: set of letters to be used as the alphabet set
+    :param num: length of words to permute based on given alphabet
+    :return: list of tuples of words of length num given alphabet
     """
 
     lexf_product = list()
@@ -36,9 +39,9 @@ def lexf(alphabet, num):
 
 
 def format_output(lexf_data):
-    """ Format output according to problem requirement
+    """Format output according to problem requirement
 
-    :param max_gc_content: list
+    :param lexf_data: list of tuples of word combinations
     :return: formatted string output of results
     """
 
@@ -53,10 +56,9 @@ def format_output(lexf_data):
 
 
 if __name__ == '__main__':
-    # filename = "lexf_sample_data.txt"
-    filename = "rosalind_lexf.txt"
+    filename = "rosalind_lexf_2.txt"
     lexf_data = parse_lexf_data(filename)
     # print(lexf_data)
     lexf_set = lexf(lexf_data[0], int(lexf_data[1]))
-    # print(lexf_set)
-    print(format_output(lexf_set))
+    print(lexf_set)
+    # print(format_output(lexf_set))

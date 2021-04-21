@@ -16,7 +16,7 @@ Sample Usage:
 """
 
 import unittest
-from asqm import *
+from asmq import *
 
 
 class TestN50Algorithm(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestN50Algorithm(unittest.TestCase):
         # N50 Test
         file = "sample_data.txt"
         contig_set = parse_data(file)
-        n50_score = nxx(contig_set, 50)
+        n50_score = asmq(contig_set, 50)
 
         # make sure solution matches computed result
         self.assertEqual(n50_score, 7)
@@ -35,7 +35,7 @@ class TestN50Algorithm(unittest.TestCase):
         # N75 Test
         file = "sample_data.txt"
         contig_set = parse_data(file)
-        n75_score = nxx(contig_set, 75)
+        n75_score = asmq(contig_set, 75)
 
         # make sure solution matches computed result
         self.assertEqual(n75_score, 6)
@@ -44,7 +44,7 @@ class TestN50Algorithm(unittest.TestCase):
         # N50 Test
         file = "sample_data_negative.txt"
         contig_set = parse_data(file)
-        n50_score = nxx(contig_set, 50)
+        n50_score = asmq(contig_set, 50)
 
         # make sure solution matches computed result
         self.assertEqual(n50_score, 0)
@@ -52,7 +52,7 @@ class TestN50Algorithm(unittest.TestCase):
         # N75 Test
         file = "sample_data_negative.txt"
         contig_set = parse_data(file)
-        n75_score = nxx(contig_set, 75)
+        n75_score = asmq(contig_set, 75)
 
         # make sure solution matches computed result
         self.assertEqual(n75_score, 0)
