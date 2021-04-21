@@ -24,10 +24,9 @@ not exceed 50 kbp).
 Return: N50 and N75 for this collection of strings.
 """
 
-from helpers import *
-from parsers import *
-from sorting_algorithms import *
-from sample_data_generator import *
+from helpers import get_len_of_genome
+from parsers import parse_assembly_data
+from sorting_algorithms import bubble_sort
 from copy import deepcopy
 
 
@@ -86,7 +85,7 @@ def asmq(dna_set, pct, sorting_algo=None):
 
 
 if __name__ == '__main__':
-    filename = "rosalind_asmq_1.txt"
+    filename = "rosalind_asmq_2.txt"
     dna_set = parse_assembly_data(filename)
 
     n50 = asmq(dna_set, 50)
