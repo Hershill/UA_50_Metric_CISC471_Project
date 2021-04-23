@@ -172,11 +172,11 @@ def format_output(sets):
 
 
 if __name__ == '__main__':
-    filename = "rosalind_seto_2.txt"
+    filename = "rosalind_seto_3.txt"
     seto_data = parse_seto_data(filename)
     # print(seto_data)
     set_one = seto_data[1]
     set_two = seto_data[2]
     output_sets = seto(int(seto_data[0]), set_one, set_two)
-    print(output_sets)
+    # print(output_sets)
     print(format_output(output_sets))
