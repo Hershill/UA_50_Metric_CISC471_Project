@@ -150,7 +150,7 @@ def output_figure_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("figure.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
+        writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(['Metric', 'N50', 'UA50'])
 
         for key in list(data.keys()):
@@ -161,7 +161,7 @@ def output_figure_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("n_vs_ua_contig_spread.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
+        writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(
             ['ErrorPCT', 'NUM', 'SmallPCT', 'MediumPCT', 'LargePCT']
         )
