@@ -76,9 +76,9 @@ def format_output(dbru_graph):
 
 
 if __name__ == '__main__':
-    filename = "rosalind_dbru_2.txt"
+    filename = "rosalind_dbru_3.txt"
     dbru_data = parse_subs_data(filename)
     # print(dbru_data)
     dbru_graph = dbru(dbru_data)
-    print(dbru_graph)
+    # print(dbru_graph)
     print(format_output(dbru_graph))

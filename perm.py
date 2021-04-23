@@ -61,9 +61,9 @@ def format_output(permutation_set):
 
 
 if __name__ == '__main__':
-    filename = "rosalind_perm_2.txt"
+    filename = "rosalind_perm_3.txt"
     perm_number = int(parse_dna_data(filename))
     # print(perm_number)
     permutations = perm(perm_number)
-    print(permutations)
-    # print(format_output(permutations))
+    # print(permutations)
+    print(format_output(permutations))

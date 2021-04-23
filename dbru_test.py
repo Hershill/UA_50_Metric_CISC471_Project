@@ -18,8 +18,9 @@ Sample Usage:
 """
 
 import unittest
+import ast
 from dbru import dbru, format_output
-from parsers import parse_subs_data
+from parsers import parse_subs_data, parse_single_line_sol_data
 
 
 class TestProgrammingProblemDBRU(unittest.TestCase):
@@ -44,34 +45,28 @@ class TestProgrammingProblemDBRU(unittest.TestCase):
         self.assertEqual(solution_formatted, dbru_graph_formatted)
 
     def test_dbru_positive_b(self):
-        dbru_data = parse_subs_data("rosalind_dbru_1.txt")
+        dbru_data = parse_subs_data("rosalind_dbru_2.txt")
         dbru_graph_raw = dbru(dbru_data)
         dbru_graph_formatted = format_output(dbru_graph_raw)
 
-        solution_raw = [('ATC', 'TCA'), ('ATG', 'TGA'), ('ATG', 'TGC'),
-                        ('CAT', 'ATC'), ('CAT', 'ATG'), ('GAT', 'ATG'),
-                        ('GCA', 'CAT'), ('TCA', 'CAT'), ('TGA', 'GAT')]
-
-        solution_formatted = "(ATC, TCA)\n(ATG, TGA)\n(ATG, TGC)\n(CAT, " \
-                             "ATC)\n(CAT, ATG)\n(GAT, ATG)\n(GCA, CAT)\n(TCA," \
-                             " CAT)\n(TGA, GAT)\n"
+        solution_raw = ast.literal_eval(
+            parse_single_line_sol_data("rosalind_dbru_2_sol.txt")
+        )
+        solution_formatted = format_output(solution_raw)
 
         # make sure solution matches computed result
         self.assertEqual(solution_raw, dbru_graph_raw)
         self.assertEqual(solution_formatted, dbru_graph_formatted)
 
     def test_dbru_positive_c(self):
-        dbru_data = parse_subs_data("rosalind_dbru_1.txt")
+        dbru_data = parse_subs_data("rosalind_dbru_3.txt")
         dbru_graph_raw = dbru(dbru_data)
         dbru_graph_formatted = format_output(dbru_graph_raw)
 
-        solution_raw = [('ATC', 'TCA'), ('ATG', 'TGA'), ('ATG', 'TGC'),
-                        ('CAT', 'ATC'), ('CAT', 'ATG'), ('GAT', 'ATG'),
-                        ('GCA', 'CAT'), ('TCA', 'CAT'), ('TGA', 'GAT')]
-
-        solution_formatted = "(ATC, TCA)\n(ATG, TGA)\n(ATG, TGC)\n(CAT, " \
-                             "ATC)\n(CAT, ATG)\n(GAT, ATG)\n(GCA, CAT)\n(TCA," \
-                             " CAT)\n(TGA, GAT)\n"
+        solution_raw = ast.literal_eval(
+            parse_single_line_sol_data("rosalind_dbru_3_sol.txt")
+        )
+        solution_formatted = format_output(solution_raw)
 
         # make sure solution matches computed result
         self.assertEqual(solution_raw, dbru_graph_raw)

@@ -56,9 +56,9 @@ def format_output(lexf_data):
 
 
 if __name__ == '__main__':
-    filename = "rosalind_lexf_2.txt"
+    filename = "rosalind_lexf_3.txt"
     lexf_data = parse_lexf_data(filename)
     # print(lexf_data)
     lexf_set = lexf(lexf_data[0], int(lexf_data[1]))
-    print(lexf_set)
-    # print(format_output(lexf_set))
+    # print(lexf_set)
+    print(format_output(lexf_set))

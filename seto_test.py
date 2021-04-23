@@ -18,8 +18,9 @@ Sample Usage:
 """
 
 import unittest
+import ast
 from seto import seto, format_output
-from parsers import parse_seto_data
+from parsers import parse_seto_data, parse_single_line_sol_data
 
 
 class TestProgrammingProblemSETO(unittest.TestCase):
@@ -43,32 +44,32 @@ class TestProgrammingProblemSETO(unittest.TestCase):
         self.assertEqual(solution_formatted, output_sets_formatted)
 
     def test_seto_positive_b(self):
-        seto_data = parse_seto_data("rosalind_seto_1.txt")
+        seto_data = parse_seto_data("rosalind_seto_2.txt")
         set_a = [int(i) for i in seto_data[1]]
         set_b = [int(i) for i in seto_data[2]]
         output_sets_raw = seto(int(seto_data[0]), set_a, set_b)
         output_sets_formatted = format_output(output_sets_raw)
 
-        solution_raw = [[1, 2, 3, 4, 5, 8, 10], [2, 5], [1, 3, 4], [8, 10],
-                        [6, 7, 8, 9, 10], [1, 3, 4, 6, 7, 9]]
-        solution_formatted = "{1, 2, 3, 4, 5, 8, 10}\n{2, 5}\n{1, 3, 4}\n{8, " \
-                             "10}\n{6, 7, 8, 9, 10}\n{1, 3, 4, 6, 7, 9}\n"
+        solution_raw = ast.literal_eval(parse_single_line_sol_data(
+            "rosalind_perm_2_sol.txt")
+        )
+        solution_formatted = format_output(solution_raw)
 
         # make sure solution matches computed result
         self.assertEqual(solution_raw, output_sets_raw)
         self.assertEqual(solution_formatted, output_sets_formatted)
 
     def test_seto_positive_c(self):
-        seto_data = parse_seto_data("rosalind_seto_1.txt")
+        seto_data = parse_seto_data("rosalind_seto_3.txt")
         set_a = [int(i) for i in seto_data[1]]
         set_b = [int(i) for i in seto_data[2]]
         output_sets_raw = seto(int(seto_data[0]), set_a, set_b)
         output_sets_formatted = format_output(output_sets_raw)
 
-        solution_raw = [[1, 2, 3, 4, 5, 8, 10], [2, 5], [1, 3, 4], [8, 10],
-                        [6, 7, 8, 9, 10], [1, 3, 4, 6, 7, 9]]
-        solution_formatted = "{1, 2, 3, 4, 5, 8, 10}\n{2, 5}\n{1, 3, 4}\n{8, " \
-                             "10}\n{6, 7, 8, 9, 10}\n{1, 3, 4, 6, 7, 9}\n"
+        solution_raw = ast.literal_eval(parse_single_line_sol_data(
+            "rosalind_perm_3_sol.txt")
+        )
+        solution_formatted = format_output(solution_raw)
 
         # make sure solution matches computed result
         self.assertEqual(solution_raw, output_sets_raw)
