@@ -24,15 +24,14 @@ not exceed 50 kbp).
 Return: N50 and N75 for this collection of strings.
 """
 
+from copy import deepcopy
 from helpers import get_len_of_genome
 from parsers import parse_assembly_data
-from sorting_algorithms import bubble_sort
-from copy import deepcopy
 
 
 # sorting algos available to use
 SORTING_ALGOS = {
-    'bubble': bubble_sort
+    'bubble': "call_to_bubble"
 }
 
 

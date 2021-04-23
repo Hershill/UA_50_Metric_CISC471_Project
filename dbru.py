@@ -17,8 +17,8 @@ Return: The adjacency list corresponding to the de Bruijn graph corresponding
 to S∪Src.
 """
 
-from revc import *
-from parsers import *
+from revc import revc
+from parsers import parse_subs_data
 
 
 def dbru(dbru_set, incl_revc=True):

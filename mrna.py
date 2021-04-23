@@ -17,8 +17,8 @@ could have been translated, modulo 1,000,000. (Don't neglect the importance
 of the stop codon in protein translation.)
 """
 
-from parsers import parse_dna_data
 from enum import Enum
+from parsers import parse_dna_data
 
 
 # Enum for storing mapping of number of coding sequences for each Amino Acid

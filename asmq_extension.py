@@ -12,8 +12,10 @@ By:
 """
 
 from asmq import asmq
-from sample_data_generator import *
-from outputify import *
+from sample_data_generator import generate_error_sample, count_contig_pct, \
+    generate_contigs_by_percentage_from_genome, generate_random_contig
+from outputify import outputify_comparative_scoring_analysis_with_errors, \
+    outputify_comparative_scoring_analysis
 
 
 # the range of errors to test with
@@ -116,10 +118,11 @@ def find_correct_contigs(contig, ref_genome):
 
 def comparative_scoring_analysis(dna_set, pct, ref_genome, index_set,
                                  err_set=False):
-    """Return metrics for assembly: NXX, UXX, UGXX and L50 and dna set composition
+    """Return metrics for assembly: NXX, UXX, UGXX and L50 and DNA set
+    composition
 
     :param dna_set: list of DNA contigs
-    :param pct: percentage threshold for UG score
+    :param pct: percentage threshold for metric scores
     :param ref_genome: reference genome
     :param err_set: is the data set induced with simulated errors
     :return: all score metrics and data set breakdown
@@ -135,7 +138,7 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, index_set,
         scoring_metrics[f"U{pct}"] = uxx(dna_set, pct, ref_genome, index_set)
         scoring_metrics[f"UG{pct}pct"] = round(
             ugxx(dna_set, pct, ref_genome, index_set, pct), 5)
-        scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
+        scoring_metrics[f"L{pct}"] = lxx(dna_set, pct, len(ref_genome))
 
     # percent composition of short, medium and long contigs
     contig_info = count_contig_pct(dna_set)
@@ -149,12 +152,12 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, index_set,
 
 
 def uxx(dna_set, pct, ref_genome, index_set):
-    """Return the U50 score of a given set of DNA contigs and reference genome
+    """Return the UXX score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs with each contig as a single string
     :param pct: percentage threshold for UG score
     :param ref_genome: reference genome given as a single string
-    :return: U50 score
+    :return: UXX score
     """
 
     # base case: if the dna set is emp
@@ -192,13 +195,13 @@ def uxx(dna_set, pct, ref_genome, index_set):
 
 
 def ugxx(dna_set, pct, ref_genome, index_set, percentage=None):
-    """Return the UG50 score of a given set of DNA contigs and reference genome
+    """Return the UGXX score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs with each contig as a single string
     :param pct: percentage threshold for UG score
     :param ref_genome: reference genome given as a single string
     :param percentage: UGxx% statistics instead of UGxx, default is UGxx
-    :return: UG50 score or UG50% score 
+    :return: UGXX score or UGXX% score
     """
 
     # base case: if the dna set is emp
@@ -240,7 +243,14 @@ def ugxx(dna_set, pct, ref_genome, index_set, percentage=None):
                 return contig_length  # UG50
 
 
-def lxx(dna_set, pct):
+def lxx(dna_set, pct, ref_genome_len):
+    """Return the LXX score of a given set of DNA contigs and reference genome
+
+    :param dna_set: list of DNA contigs with each contig as a single string
+    :param pct: percentage threshold for L score
+    :return: LXX score
+    """
+
     sorted_contigs = sorted(dna_set, key=len, reverse=True)
     cutoff = len(''.join(sorted_contigs)) * (pct / 100)
     running_sum = 0
@@ -254,6 +264,14 @@ def lxx(dna_set, pct):
 
 
 def experimental_analysis(genome_size, scoring_pct, contig_set_size):
+    """
+
+    :param genome_size:
+    :param scoring_pct:
+    :param contig_set_size:
+    :return:
+    """
+
     # compare skews between contig sizes
 
     ref_genome = generate_random_contig(genome_size)
@@ -295,6 +313,15 @@ def experimental_analysis(genome_size, scoring_pct, contig_set_size):
 
 def experimental_analysis_with_error(ref_genome, contig_set,
                                      scoring_pct, index_set):
+    """
+
+    :param ref_genome:
+    :param contig_set:
+    :param scoring_pct:
+    :param index_set:
+    :return:
+    """
+
     comparative_scoring_set_control = comparative_scoring_analysis(
         contig_set, scoring_pct, ref_genome, index_set, err_set=True
     )
@@ -303,6 +330,14 @@ def experimental_analysis_with_error(ref_genome, contig_set,
 
 
 def generate_skewed_data_analysis(genome_size, num_contigs, score_pct):
+    """
+
+    :param genome_size:
+    :param num_contigs:
+    :param score_pct:
+    :return:
+    """
+
     ctrl, sml, mdm, lrg = experimental_analysis(
         genome_size, score_pct, num_contigs
     )
@@ -311,6 +346,13 @@ def generate_skewed_data_analysis(genome_size, num_contigs, score_pct):
 
 
 def generate_n_vs_ua_data_analysis(genome_size, num_contigs, score_pct):
+    """
+
+    :param genome_size:
+    :param num_contigs:
+    :param score_pct:
+    :return:
+    """
 
     accumulated_err_results = dict()
 
@@ -340,7 +382,7 @@ def generate_n_vs_ua_data_analysis(genome_size, num_contigs, score_pct):
 
 if __name__ == '__main__':
     # reference genome of len 500
-    ref_genome_size = 500
+    ref_genome_size = 5000
 
     # number of contigs in data set
     contig_genome_scale = 2.25  # percent ratio of contigs to ref_genome_size
@@ -355,7 +397,9 @@ if __name__ == '__main__':
 
     outputify_comparative_scoring_analysis(control, sm, md, lg)
 
-    generate_n_vs_ua_data_analysis(ref_genome_size, contig_set_size, scoring_pct)
+    generate_n_vs_ua_data_analysis(
+        ref_genome_size, contig_set_size, scoring_pct
+    )
 
     pct_errs = [0.05, 0.1, .25, .50]
 
@@ -380,8 +424,3 @@ if __name__ == '__main__':
         outputify_comparative_scoring_analysis_with_errors(
             error_results, scoring_pct, pct_err
         )
-
-    # TEST for UA50
-    # dna =['ACCT','TCTAG','TCG','CG']
-    # ref_genome = 'ACCTAGTCG'
-    # ua50 = uaxx(dna, 50, ref_genome)
