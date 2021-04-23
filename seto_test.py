@@ -51,7 +51,7 @@ class TestProgrammingProblemSETO(unittest.TestCase):
         output_sets_formatted = format_output(output_sets_raw)
 
         solution_raw = ast.literal_eval(parse_single_line_sol_data(
-            "rosalind_perm_2_sol.txt")
+            "rosalind_seto_2_sol.txt")
         )
         solution_formatted = format_output(solution_raw)
 
@@ -67,7 +67,7 @@ class TestProgrammingProblemSETO(unittest.TestCase):
         output_sets_formatted = format_output(output_sets_raw)
 
         solution_raw = ast.literal_eval(parse_single_line_sol_data(
-            "rosalind_perm_3_sol.txt")
+            "rosalind_seto_3_sol.txt")
         )
         solution_formatted = format_output(solution_raw)
 
