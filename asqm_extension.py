@@ -357,29 +357,29 @@ if __name__ == '__main__':
 
     generate_n_vs_ua_data_analysis(ref_genome_size, contig_set_size, scoring_pct)
 
-    # pct_errs = [0.05, 0.1, .25, .50]
-    #
-    # ref_genome = generate_random_contig(ref_genome_size)
-    #
-    # contig_set_control, index_set_control = \
-    #     generate_contigs_by_percentage_from_genome(
-    #         ref_genome, 0.50, 0.25, 0.25, contig_set_size
-    #     )
-    #
-    # # print(contig_set_control[0])
-    # # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
-    #
-    # for pct_err in pct_errs:
-    #     contig_error_set = generate_error_sample(contig_set_control, ref_genome,
-    #                                              pct_error=pct_err)
-    #
-    #     error_results = experimental_analysis_with_error(
-    #         contig_error_set, scoring_pct, index_set_control
-    #     )
-    #
-    #     outputify_comparative_scoring_analysis_with_errors(
-    #         error_results, scoring_pct, pct_err
-    #     )
+    pct_errs = [0.05, 0.1, .25, .50]
+
+    ref_genome = generate_random_contig(ref_genome_size)
+
+    contig_set_control, index_set_control = \
+        generate_contigs_by_percentage_from_genome(
+            ref_genome, 0.50, 0.25, 0.25, contig_set_size
+        )
+
+    # print(contig_set_control[0])
+    # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
+
+    for pct_err in pct_errs:
+        contig_error_set = generate_error_sample(contig_set_control, ref_genome,
+                                                 pct_error=pct_err)
+
+        error_results = experimental_analysis_with_error(
+            ref_genome, contig_error_set, scoring_pct, index_set_control
+        )
+
+        outputify_comparative_scoring_analysis_with_errors(
+            error_results, scoring_pct, pct_err
+        )
 
     # TEST for UA50
     # dna =['ACCT','TCTAG','TCG','CG']
