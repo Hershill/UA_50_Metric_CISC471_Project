@@ -175,3 +175,19 @@ def parse_tree_data(filename):
         tree_data.append(data_set[i].strip("\n").split(" "))
 
     return tree_data
+
+
+def parse_single_line_sol_data(filename):
+    """Read in the data file containing a single line solution to a problem
+
+    :param filename: file containing the single line solution
+    :return: the single line solution as a string
+    """
+    with open(filename) as file:
+        data_set = file.readline()
+
+    # for i in range(len(data_set)):
+    #     data_set += data_set[i].replace("\n", "")
+    data_set = data_set.strip("\n")
+
+    return data_set
