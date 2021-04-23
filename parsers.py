@@ -14,11 +14,12 @@ accessible via a simple function call
 
 
 def parse_assembly_data(filename):
-    """Read in the RNA sequence data from a file
+    """Read in the set of assembly contig data from a file
 
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    :param filename: file containing assembly contigs
+    :return: list of assembly contigs
     """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -29,27 +30,26 @@ def parse_assembly_data(filename):
 
 
 def parse_dna_data(filename):
-    """Read in the RNA sequence data from a file
+    """Read in the DNA sequence data from a file
 
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    :param filename: file containing DNA sequence
+    :return: DNA sequence as a string
     """
     with open(filename) as file:
         data_set = file.readline()
 
-    # for i in range(len(data_set)):
-    #     data_set += data_set[i].replace("\n", "")
     data_set = data_set.strip("\n")
 
     return data_set
 
 
 def parse_gc_data(filename):
-    """Read in the RNA sequence data from a file
+    """Read in the FASTA data from a file
 
-    :param filename: file containing RNA sequence
+    :param filename: file containing FASTA DNA sets
     :return: RNA sequence as a string
     """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -66,10 +66,12 @@ def parse_gc_data(filename):
 
 
 def parse_hamm_data(filename):
-    """Read in the RNA sequence data from a file
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    """Read in two DNA strings from a file
+
+    :param filename: file containing DNA sequences
+    :return: list of DNA sequences
     """
+
     with open(filename) as file:
         data_set = file.readlines()
     
@@ -82,6 +84,12 @@ def parse_hamm_data(filename):
 
 
 def parse_gasm_data(filename):
+    """Read in the sets of contig reads
+
+    :param filename: file containing set of DNA contig reads
+    :return: list of contig reads
+    """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -108,10 +116,12 @@ def parse_iprb_data(filename):
 
 
 def parse_lexf_data(filename):
-    """Read in the RNA sequence data from a file
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    """Read in the alphabet and word length data from a file
+
+    :param filename: alphabet and word length data
+    :return: list containing alphabet and word length
     """
+
     with open(filename) as file:
         data_set = file.readlines()
     
@@ -125,9 +135,11 @@ def parse_lexf_data(filename):
 
 def parse_subs_data(filename):
     """Read in the RNA sequence data from a file
+
     :param filename: file containing RNA sequence
     :return: RNA sequence as a string
     """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -140,10 +152,12 @@ def parse_subs_data(filename):
 
 
 def parse_seto_data(filename):
-    """Read in the RNA sequence data from a file
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    """Read in the set data from a file
+
+    :param filename: file containing set data
+    :return: list of set data
     """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -160,10 +174,12 @@ def parse_seto_data(filename):
 
 
 def parse_tree_data(filename):
-    """Read in the RNA sequence data from a file
-    :param filename: file containing RNA sequence
-    :return: RNA sequence as a string
+    """Read in the adjacency list data
+
+    :param filename: file containing the adjacency list data
+    :return: list of the adjacency list data
     """
+
     with open(filename) as file:
         data_set = file.readlines()
 
@@ -183,11 +199,10 @@ def parse_single_line_sol_data(filename):
     :param filename: file containing the single line solution
     :return: the single line solution as a string
     """
+
     with open(filename) as file:
         data_set = file.readline()
 
-    # for i in range(len(data_set)):
-    #     data_set += data_set[i].replace("\n", "")
     data_set = data_set.strip("\n")
 
     return data_set

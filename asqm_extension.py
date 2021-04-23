@@ -1,5 +1,6 @@
 """
-asqm_extension.py file containing the implementation of the algorithms
+asqm_extension.py file containing the implementation of the extension algorithms
+for assessing assembly quality scoring metrics
 
 Group Project for CISC 471, Computational Biology.
 
@@ -13,6 +14,10 @@ By:
 from asmq import asmq
 from sample_data_generator import *
 from outputify import *
+
+
+# the range of errors to test with
+PCT_ERRS = [0.05, 0.1, .25, .50]
 
 
 def uaxx(data_set, pct, ref_genome, index_set):
@@ -128,8 +133,7 @@ def comparative_scoring_analysis(dna_set, pct, ref_genome, index_set,
 
     if not err_set:
         scoring_metrics[f"U{pct}"] = uxx(dna_set, pct, ref_genome, index_set)
-        # scoring_metrics[f"UG{pct}"] = ugxx(dna_set, pct, ref_genome)
-        scoring_metrics[f"UG{pct}%"] = round(
+        scoring_metrics[f"UG{pct}pct"] = round(
             ugxx(dna_set, pct, ref_genome, index_set, pct), 5)
         scoring_metrics[f"L{pct}"] = lxx(dna_set, pct)
 
@@ -289,12 +293,49 @@ def experimental_analysis(genome_size, scoring_pct, contig_set_size):
         comparative_scoring_set_md_skew, comparative_scoring_set_lg_skew
 
 
-def experimental_analysis_with_error(contig_set, scoring_pct, index_set):
+def experimental_analysis_with_error(ref_genome, contig_set,
+                                     scoring_pct, index_set):
     comparative_scoring_set_control = comparative_scoring_analysis(
         contig_set, scoring_pct, ref_genome, index_set, err_set=True
     )
 
     return comparative_scoring_set_control
+
+
+def generate_skewed_data_analysis(genome_size, num_contigs, score_pct):
+    ctrl, sml, mdm, lrg = experimental_analysis(
+        genome_size, score_pct, num_contigs
+    )
+
+    return ctrl, sml, mdm, lrg
+
+
+def generate_n_vs_ua_data_analysis(genome_size, num_contigs, score_pct):
+
+    accumulated_err_results = dict()
+
+    reference_genome = generate_random_contig(genome_size)
+
+    contig_set_control, index_set_control = \
+        generate_contigs_by_percentage_from_genome(
+            reference_genome, 0.50, 0.25, 0.25, num_contigs
+        )
+
+    # print(contig_set_control[0])
+    # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
+
+    for pct_err in PCT_ERRS:
+        contig_error_set = generate_error_sample(
+            contig_set_control, reference_genome, pct_error=pct_err
+        )
+
+        error_results = experimental_analysis_with_error(
+            reference_genome, contig_error_set, score_pct, index_set_control
+        )
+
+        accumulated_err_results[f"{pct_err * 100}"] = error_results
+
+    return accumulated_err_results
 
 
 if __name__ == '__main__':
@@ -305,40 +346,40 @@ if __name__ == '__main__':
     contig_genome_scale = 2.25  # percent ratio of contigs to ref_genome_size
     contig_set_size = contig_genome_scale * ref_genome_size
 
-    ref_genome = generate_random_contig(ref_genome_size)
-
     # normalized data for 50% scoring
     scoring_pct = 50
 
-    # generate contig set
-
-    control, sm, md, lg = experimental_analysis(
-        ref_genome_size, scoring_pct, contig_set_size
-    )
+    control, sm, md, lg = generate_skewed_data_analysis(ref_genome_size,
+                                                        contig_set_size,
+                                                        scoring_pct)
 
     outputify_comparative_scoring_analysis(control, sm, md, lg)
 
-    pct_errs = [0.05, 0.1, .25, .50]
+    generate_n_vs_ua_data_analysis(ref_genome_size, contig_set_size, scoring_pct)
 
-    contig_set_control, index_set_control = \
-        generate_contigs_by_percentage_from_genome(
-            ref_genome, 0.50, 0.25, 0.25, contig_set_size
-        )
-
-    # print(contig_set_control[0])
-    # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
-
-    for pct_err in pct_errs:
-        contig_error_set = generate_error_sample(contig_set_control, ref_genome,
-                                                 pct_error=pct_err)
-
-        error_results = experimental_analysis_with_error(
-            contig_error_set, scoring_pct, index_set_control
-        )
-
-        outputify_comparative_scoring_analysis_with_errors(
-            error_results, scoring_pct, pct_err
-        )
+    # pct_errs = [0.05, 0.1, .25, .50]
+    #
+    # ref_genome = generate_random_contig(ref_genome_size)
+    #
+    # contig_set_control, index_set_control = \
+    #     generate_contigs_by_percentage_from_genome(
+    #         ref_genome, 0.50, 0.25, 0.25, contig_set_size
+    #     )
+    #
+    # # print(contig_set_control[0])
+    # # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
+    #
+    # for pct_err in pct_errs:
+    #     contig_error_set = generate_error_sample(contig_set_control, ref_genome,
+    #                                              pct_error=pct_err)
+    #
+    #     error_results = experimental_analysis_with_error(
+    #         contig_error_set, scoring_pct, index_set_control
+    #     )
+    #
+    #     outputify_comparative_scoring_analysis_with_errors(
+    #         error_results, scoring_pct, pct_err
+    #     )
 
     # TEST for UA50
     # dna =['ACCT','TCTAG','TCG','CG']
