@@ -160,7 +160,7 @@ def output_figure_data_to_csv(data):
     # take in data as a collection of dictionaries
     with open("figure.csv", "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter='\t')
-        writer.writerow(['Metric', 'N50', 'UA50'])
+        writer.writerow(['Metric', '5.0', '10.0', '25.0', '50.0'])
 
         for key in data[list(data.keys())[0]]:
             if "CONTIG" not in key:
@@ -169,7 +169,7 @@ def output_figure_data_to_csv(data):
     # take in data as a collection of dictionaries
     with open("n_vs_ua_contig_spread.csv", "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter='\t')
-        writer.writerow(['Metric', 'N50', 'UA50'])
+        writer.writerow(['Metric', '5.0', '10.0', '25.0', '50.0'])
 
         for key in data[list(data.keys())[0]]:
             if "CONTIG" in key:
