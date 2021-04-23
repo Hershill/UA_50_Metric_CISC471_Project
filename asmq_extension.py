@@ -243,7 +243,7 @@ def ugxx(dna_set, pct, ref_genome, index_set, percentage=None):
                 return contig_length  # UG50
 
 
-def lxx(dna_set, pct, ref_genome_len):
+def lxx(dna_set, pct):
     """Return the LXX score of a given set of DNA contigs and reference genome
 
     :param dna_set: list of DNA contigs with each contig as a single string
@@ -264,12 +264,13 @@ def lxx(dna_set, pct, ref_genome_len):
 
 
 def experimental_analysis(genome_size, scoring_pct, contig_set_size):
-    """
+    """Conduct the experimental analysis on each metric given data set
+    parameters
 
-    :param genome_size:
-    :param scoring_pct:
-    :param contig_set_size:
-    :return:
+    :param genome_size: size of the genome
+    :param scoring_pct: percentage to use for the scoring metrics
+    :param contig_set_size: number of contigs oer data set
+    :return: dictionary of data for all metrics given data set parameters
     """
 
     # compare skews between contig sizes
@@ -313,13 +314,14 @@ def experimental_analysis(genome_size, scoring_pct, contig_set_size):
 
 def experimental_analysis_with_error(ref_genome, contig_set,
                                      scoring_pct, index_set):
-    """
+    """Conduct the experimental analysis on each metric given data set
+    parameters, given simulate erroneous data
 
-    :param ref_genome:
-    :param contig_set:
-    :param scoring_pct:
-    :param index_set:
-    :return:
+    :param ref_genome: the reference genome
+    :param genome_size: size of the genome
+    :param scoring_pct: percentage to use for the scoring metrics
+    :param contig_set_size: number of contigs oer data set
+    :return: dictionary of data for all metrics given data set parameters
     """
 
     comparative_scoring_set_control = comparative_scoring_analysis(
@@ -330,12 +332,12 @@ def experimental_analysis_with_error(ref_genome, contig_set,
 
 
 def generate_skewed_data_analysis(genome_size, num_contigs, score_pct):
-    """
+    """Generate the analytics of a contig data set
 
-    :param genome_size:
-    :param num_contigs:
-    :param score_pct:
-    :return:
+    :param genome_size: size of the reference genome
+    :param num_contigs: number of contigs in the data set
+    :param score_pct: percentage used for metric score
+    :return: set of data for analysis of the contig set
     """
 
     ctrl, sml, mdm, lrg = experimental_analysis(
@@ -346,12 +348,12 @@ def generate_skewed_data_analysis(genome_size, num_contigs, score_pct):
 
 
 def generate_n_vs_ua_data_analysis(genome_size, num_contigs, score_pct):
-    """
+    """Generate data for the N50 vs UA50 experiment
 
-    :param genome_size:
-    :param num_contigs:
-    :param score_pct:
-    :return:
+    :param genome_size: the size of the reference genome
+    :param num_contigs: number of contigs in the data set
+    :param score_pct: percentage of scoring to use for the metrics
+    :return: data set as a dictionary of the comparative metric measures
     """
 
     accumulated_err_results = dict()
@@ -362,9 +364,6 @@ def generate_n_vs_ua_data_analysis(genome_size, num_contigs, score_pct):
         generate_contigs_by_percentage_from_genome(
             reference_genome, 0.50, 0.25, 0.25, num_contigs
         )
-
-    # print(contig_set_control[0])
-    # print(ref_genome[index_set_control[0][0] : index_set_control[0][1]])
 
     for pct_err in PCT_ERRS:
         contig_error_set = generate_error_sample(

@@ -54,16 +54,19 @@ There are two ways to visualize and collate the data for the experiments conduct
 - Using `figures.py` to generate CSV files for use in the LaTeX documentation
 - Using `asmq_extension.py` to generate tabular data output in the python console
 
-Experiment parameters can be adjusted and set before running figures.py
+Experiment parameters can be adjusted and set before running `figures.py`, which generated the following CSV files:
+- For the table data in the LaTeX report
+    - table.csv
+    - contig_spread.csv
+- For the figure/graph data in the LaTeX report
+    - figure.csv
+    - n_vs_ua_contig_spread.csv
 
-Running `asmq_extension.py` can be used to view individual tables and output to the python conosle given parameters
+The generated CSV files from `figures.py` can be replaced with the files in the directory of the `.tex` file. Compiling
+the report with the new data will update the data in the tables correspondingly.
+
+Running `asmq_extension.py` can be used to view individual tables and output to the python console given parameters
 which can be adjusted before running the file.
-
-Exported to csv, can be replaced with the files in the directory of the `.tex` file
-
-Compiling the `.tex` file will now inlay the 
-
-CSV files generated from running `figures.py`
 
 ## Software Verification
 
@@ -80,7 +83,3 @@ CSV files generated from running `figures.py`
     - Multiple trial of ASMQ data passed on Rosalind with our implementation of the algorithm, giving us a confident
       baseline for the development of the extension algorithm in `asmq_extension.py`
 - All testing for our extension was done using unittests on both the implemented algorithms and data generator algorithms
-
-## 1 - N50 and N75 Algorithms
-
-## 2 - UA50 Extension Algorithm
