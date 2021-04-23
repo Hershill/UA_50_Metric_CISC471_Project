@@ -49,7 +49,7 @@ def generate_random_contig(random_len):
 def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3, large=1/3, num=12500):
 
     if small + medium + large > 1:
-        return []
+        return [], []
 
     # defaults to evenly weighted
 
