@@ -1,6 +1,6 @@
 """
-asmq_test.py file that runs the unittests for asmq.py when the file is called or
-run using the python CLI.
+asmq_extension_test.py file that runs the unittests for asmq_extension.py when
+the file is called or run using the python CLI.
 
 Group Project for CISC 471, Computational Biology.
 
@@ -18,8 +18,14 @@ Sample Usage:
 """
 
 import unittest
-from asqm_extension import *
-from sample_data_generator import *
+from asqm_extension import experimental_analysis_with_error
+from sample_data_generator import generate_contigs_by_percentage, \
+    count_contig_pct, generate_error_sample, generate_random_contig, \
+    generate_contigs_by_percentage_from_genome
+
+REF_GENOME_SIZE = 500
+CONTIG_GENOME_SCALE = 2.25  # percent ratio of contigs to REF_GENOME_SIZE
+CONTIG_SET_SIZE = CONTIG_GENOME_SCALE * REF_GENOME_SIZE
 
 
 class TestProgrammingProblemASMQ(unittest.TestCase):
@@ -27,60 +33,163 @@ class TestProgrammingProblemASMQ(unittest.TestCase):
     """
 
     def test_asmq_ext_positive_a(self):
-        asmq_ext_data = generate_error_sample()
-        asmq_50 = asmq(asmq_data, 50)
-        asmq_75 = asmq(asmq_data, 75)
+        # test uaxx and assert error data gives same result
+        pct_errs = [0.05, 0.1, .25, .50]
 
-        solution_50 = 7
-        solution_75 = 6
+        ref_genome = generate_random_contig(REF_GENOME_SIZE)
 
-        # make sure solution matches computed result
-        self.assertEqual(solution_50, asmq_50)
-        self.assertEqual(solution_75, asmq_75)
+        contig_set_control, index_set_control = \
+            generate_contigs_by_percentage_from_genome(
+                ref_genome, 0.50, 0.25, 0.25, CONTIG_SET_SIZE
+            )
+
+        ua_score_set = list()
+
+        for pct_err in pct_errs:
+            contig_error_set = generate_error_sample(
+                contig_set_control, ref_genome, pct_error=pct_err
+            )
+
+            error_results = experimental_analysis_with_error(
+                ref_genome, contig_error_set, 50, index_set_control
+            )
+
+            ua_score_set.append(error_results['UA50'])
+
+        self.assertEqual(ua_score_set[0], ua_score_set[1])
+        self.assertEqual(ua_score_set[0], ua_score_set[2])
+        self.assertEqual(ua_score_set[0], ua_score_set[3])
+        self.assertEqual(ua_score_set[0], ua_score_set[4])
 
     def test_asmq_ext_positive_b(self):
-        asmq_data = parse_assembly_data("rosalind_asmq_2.txt")
-        asmq_50 = asmq(asmq_data, 50)
-        asmq_75 = asmq(asmq_data, 75)
+        # test uaxx and assert error data gives same result
+        pct_errs = [0.15, 0.2, .35, .60]
 
-        solution_50 = 177
-        solution_75 = 133
+        ref_genome = generate_random_contig(REF_GENOME_SIZE)
 
-        # make sure solution matches computed result
-        self.assertEqual(solution_50, asmq_50)
-        self.assertEqual(solution_75, asmq_75)
+        contig_set_control, index_set_control = \
+            generate_contigs_by_percentage_from_genome(
+                ref_genome, 0.50, 0.25, 0.25, CONTIG_SET_SIZE
+            )
+
+        ua_score_set = list()
+
+        for pct_err in pct_errs:
+            contig_error_set = generate_error_sample(
+                contig_set_control, ref_genome, pct_error=pct_err
+            )
+
+            error_results = experimental_analysis_with_error(
+                ref_genome, contig_error_set, 50, index_set_control
+            )
+
+            ua_score_set.append(error_results['UA50'])
+
+        self.assertEqual(ua_score_set[0], ua_score_set[1])
+        self.assertEqual(ua_score_set[0], ua_score_set[2])
+        self.assertEqual(ua_score_set[0], ua_score_set[3])
 
     def test_asmq_ext_positive_c(self):
-        asmq_data = parse_assembly_data("rosalind_asmq_3.txt")
-        asmq_50 = asmq(asmq_data, 50)
-        asmq_75 = asmq(asmq_data, 75)
+        # test uaxx and assert error data gives same result on large range of
+        # error percentages
+        pct_errs = [0.05, 0.10, .15, .35, .40, .75]
 
-        solution_50 = 138
-        solution_75 = 102
+        ref_genome = generate_random_contig(REF_GENOME_SIZE)
 
-        # make sure solution matches computed result
-        self.assertEqual(solution_50, asmq_50)
-        self.assertEqual(solution_75, asmq_75)
+        contig_set_control, index_set_control = \
+            generate_contigs_by_percentage_from_genome(
+                ref_genome, 0.50, 0.25, 0.25, CONTIG_SET_SIZE
+            )
 
-    def test_asmq_ext_positive_d(self):
-        asmq_data = parse_assembly_data("rosalind_asmq_4.txt")
-        asmq_50 = asmq(asmq_data, 50)
-        asmq_75 = asmq(asmq_data, 75)
+        ua_score_set = list()
 
-        solution_50 = 0
-        solution_75 = 0
+        for pct_err in pct_errs:
+            contig_error_set = generate_error_sample(
+                contig_set_control, ref_genome, pct_error=pct_err
+            )
 
-        # make sure solution matches computed result
-        self.assertEqual(solution_50, asmq_50)
-        self.assertEqual(solution_75, asmq_75)
+            error_results = experimental_analysis_with_error(
+                ref_genome, contig_error_set, 50, index_set_control
+            )
 
-    # test sample data generator and assert percentages match
+            ua_score_set.append(error_results['UA50'])
 
-    # test error and assert percentages match
+        self.assertEqual(ua_score_set[0], ua_score_set[1])
+        self.assertEqual(ua_score_set[0], ua_score_set[2])
+        self.assertEqual(ua_score_set[0], ua_score_set[3])
+        self.assertEqual(ua_score_set[0], ua_score_set[4])
+        self.assertEqual(ua_score_set[0], ua_score_set[5])
+        self.assertEqual(ua_score_set[0], ua_score_set[6])
+        self.assertEqual(ua_score_set[0], ua_score_set[7])
 
-    # test uxx
+    def test_asmq_ext_negative(self):
+        # test uaxx and assert error data gives same result on large range of
+        # error percentages
+        pct_errs = [0.05, 0.10, 0.15]
 
-    # test uaxx and assert error data gives same result
+        ref_genome = generate_random_contig(REF_GENOME_SIZE)
+
+        contig_set_control, index_set_control = \
+            generate_contigs_by_percentage_from_genome(
+                ref_genome, 0.50, 0.50, 0.25, CONTIG_SET_SIZE
+            )
+
+        ua_score_set = list()
+
+        for pct_err in pct_errs:
+            contig_error_set = generate_error_sample(
+                contig_set_control, ref_genome, pct_error=pct_err
+            )
+
+            error_results = experimental_analysis_with_error(
+                ref_genome, contig_error_set, 50, index_set_control
+            )
+
+            ua_score_set.append(error_results['UA50'])
+
+        self.assertEqual(ua_score_set[0], ua_score_set[1])
+        self.assertEqual(ua_score_set[0], ua_score_set[2])
+
+    def test_sample_data_generation(self):
+        # test sample data generator and assert percentages match
+        # almostEquals assert is used due to rounding since all parameters
+        # for number of contigs and percentage breakdown is not evenly divisible
+
+        # test defaults
+        sm, md, lg = 1/3, 1/3, 1/3
+        sample_data_default = generate_contigs_by_percentage(
+            small=sm, medium=md, large=lg
+        )
+        pcts = count_contig_pct(sample_data_default)
+
+        # assert small, medium and large are in range
+        self.assertAlmostEqual(sm, pcts[0], places=2)
+        self.assertAlmostEqual(md, pcts[1], places=2)
+        self.assertAlmostEqual(lg, pcts[2], places=2)
+
+        # assert num contigs generated matches
+        self.assertAlmostEqual(len(sample_data_default), pcts[-1])
+
+        # test skew
+        sm, md, lg = .25, .25, .50
+        sample_data_default = generate_contigs_by_percentage(
+            small=sm, medium=md, large=lg
+        )
+        pcts = count_contig_pct(sample_data_default)
+
+        # assert small, medium and large are in range
+        self.assertAlmostEqual(sm, pcts[0], places=2)
+        self.assertAlmostEqual(md, pcts[1], places=2)
+        self.assertAlmostEqual(lg, pcts[2], places=2)
+
+        # assert num contigs generated matches
+        self.assertAlmostEqual(len(sample_data_default), pcts[-1])
+
+    # def test_sample_data_generation_with_errors(self):
+        # test sample data generator and assert percentages match
+        # almostEquals assert is used due to rounding since all parameters
+        # for number of contigs and percentage breakdown is not evenly divisible
+
 
 
 if __name__ == '__main__':
