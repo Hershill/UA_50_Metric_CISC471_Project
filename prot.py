@@ -27,12 +27,13 @@ Return: The protein string encoded by s.
 """
 
 from enum import Enum
-from parsers import *
+from parsers import parse_dna_data
 
 
 # Enum for storing mapping of string sequences and coding Amino Acids
 class RNACoding(Enum):
-    """Enum that stores mapping data for RNA sequences to Amino Acids - the genetic code
+    """Enum that stores mapping data for RNA sequences to Amino Acids -
+    the genetic code
     """
     UU = {"U": "F", "C": "F", "A": "L", "G": "L"}
     CU = {"U": "L", "C": "L", "A": "L", "G": "L"}
@@ -84,7 +85,6 @@ def prot(rna):
 
 if __name__ == '__main__':
     filename = "rosalind_prot_1.txt"
-    # filename = "rosalind_prot.txt"
     rna_string = parse_dna_data(filename)
     # print(rna_string)
     peptide = prot(rna_string)

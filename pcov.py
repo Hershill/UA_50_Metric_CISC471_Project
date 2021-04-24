@@ -49,7 +49,7 @@ def pcov(dna):
             else:
                 break
 
-    return
+    return ""
 
 
 def get_adj(dna, length, k):

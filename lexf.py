@@ -18,8 +18,8 @@ lexicographically (use the standard order of symbols in the English
 alphabet).
 """
 
-from parsers import parse_lexf_data
 import itertools
+from parsers import parse_lexf_data
 
 
 def lexf(alphabet, num):

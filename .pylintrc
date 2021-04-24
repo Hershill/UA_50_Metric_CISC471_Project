@@ -3,3 +3,9 @@ max-line-length=80
 
 [BASIC]
 good-names=filename, i, j, k, l, n
+
+[MASTER]
+ignore-patterns=/venv/*
+
+[MESSAGES CONTROL]
+disable=E0401,C0116,C0103,W0612

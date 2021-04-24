@@ -21,8 +21,8 @@ Return: The total number of permutations of length n, followed by a list of
 all such permutations (in any order).
 """
 
-from parsers import parse_dna_data
 import itertools
+from parsers import parse_dna_data
 
 
 def perm(input_num):

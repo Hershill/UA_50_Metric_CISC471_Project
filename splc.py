@@ -21,10 +21,9 @@ Return: A protein string resulting from transcribing and translating the
 exons of s. (Note: Only one solution will exist for the dataset provided.)
 """
 
-
+import copy
 from prot import prot
 from parsers import parse_gc_data
-import copy
 
 
 def splc(fasta_sets):

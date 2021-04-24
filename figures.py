@@ -9,20 +9,11 @@ By:
     - Andrew Ma (20030440)
     - Rayan Shaikli (20059806)
     - Hershil Devnani (20001045)
-
 """
 
-# TODO: conduct 5 trials to average data
-
-# TODO: output data for one trial data table
-
-# TODO: output data for averaged data table
-
-# TODO: output data for each of error data trials
-
-from asqm_extension import generate_skewed_data_analysis, \
-    generate_n_vs_ua_data_analysis, PCT_ERRS
 import csv
+from asmq_extension import generate_skewed_data_analysis, \
+    generate_n_vs_ua_data_analysis, PCT_ERRS
 
 
 def gen_figure_data(genome_size, num_contigs, score_pct, trials=5):
@@ -129,7 +120,7 @@ def output_table_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("table.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
+        writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(
             ['Metric', 'Control', 'SmallSkew', 'MediumSkew', 'LargeSkew']
         )
@@ -139,7 +130,7 @@ def output_table_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("contig_spread.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
+        writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(
             ['ContigParam', 'Control', 'SmallSkew', 'MediumSkew', 'LargeSkew']
         )
@@ -159,23 +150,30 @@ def output_figure_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("figure.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
-        writer.writerow(['Metric', '5.0', '10.0', '25.0', '50.0'])
+        writer = csv.writer(csv_file, delimiter=',')
+        writer.writerow(['Metric', 'N50', 'UA50'])
 
-        for key in data[list(data.keys())[0]]:
+        for key in list(data.keys()):
             if "CONTIG" not in key:
-                writer.writerow([key] + [d[key] for d in data.values()])
+                writer.writerow(
+                    [key] + [data[key]['N50']] + [data[key]['UA50']]
+                )
 
     # take in data as a collection of dictionaries
     with open("n_vs_ua_contig_spread.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter='\t')
-        writer.writerow(['Metric', '5.0', '10.0', '25.0', '50.0'])
+        writer = csv.writer(csv_file, delimiter=',')
+        writer.writerow(
+            ['ErrorPCT', 'NUM', 'SmallPCT', 'MediumPCT', 'LargePCT']
+        )
+        params = [
+            'CONTIG_NUM', 'CONTIG_SM_PCT', 'CONTIG_LG_PCT', 'CONTIG_LG_PCT'
+        ]
 
-        for key in data[list(data.keys())[0]]:
-            if "CONTIG" in key:
-                temp_key = key.replace("CONTIG_", "")
-                temp_key = temp_key.replace("_", "")
-                writer.writerow([temp_key] + [d[key] for d in data.values()])
+        for key in list(data.keys()):
+            val_list = list()
+            for param in params:
+                val_list.append(data[key][param])
+            writer.writerow([key] + val_list)
 
 
 if __name__ == '__main__':

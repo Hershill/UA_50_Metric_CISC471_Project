@@ -1,5 +1,6 @@
 """
-helpers.py file containing the implementation of many helper functions used across all three algorithms.
+helpers.py file containing the implementation of many helper functions used
+across all algorithms.
 
 Group Project for CISC 471, Computational Biology.
 
@@ -11,9 +12,6 @@ By:
 This class has many functions that are shared across all three algorithms.
 
 """
-
-
-
 
 
 def get_len_of_genome(dna_set):

@@ -1,4 +1,4 @@
-# CISC 471 Group Project
+# Deterring the Manipulation of N50 Assembly Quality Scoring
 
 This project contains the programming implementation for our Group Project. The code was written using Python 3.8+.
 
@@ -10,35 +10,76 @@ The project contains the following files:
 
 ```
 .
-├── main.py                             # Runs the unittests the algorithms implemented
-├── algorithms.py                       # Contains the implementations of the asssemby acoring algorithms
-├── sorting_algorithms.py               # Contains the implementations of the various sorting algorithms being compared
-├── random_contig_set_generator.py      # Contains the implementation of a data generator to generate data sets that the assembly quality algorithms can be run on
-├── helpers.py                          # Contains common helper functions used accross the different algorithms
-├── unittests.py                        # Contains the unit tests for the implemented algorithms
-├── sample_data_x.py                    # Contains the sample data for the unittests
-├── solution_x.py                       # Contains the solutions to the sample data for the unittests
-└── README.md                           # This file, contians information about the program
+├── main.py                        # Runs the unittests for the entier codebase and all algorithms implemented
+├── asmq_extension.py              # Contains the implementations of the extension to the asssemby acoring algorithms
+├── asmq_extension_test.py         # Contains the implementations of the Python unittests for the extension problem 
+├── XXXX.py                        # Contains the implementations of teh Rosaling problem given by the XXXX abbreviation
+├── XXXX_test.py                   # Contains the implementations of teh Rosaling problem given by the XXXX abbreviation
+├── sample_data_generator.py       # Contains the implementation of a data generator to generate data sets that the assembly quality algorithms can be run on
+├── helpers.py                     # Contains common helper functions used accross the different algorithms
+├── unittests.py                   # Contains the unit tests for the implemented algorithms
+├── rosalind_XXXX_{1,2,3}.py       # Contains the sample data for the positive unittests for corresponding problem XXXX
+├── rosalind_XXXX_4.py             # Contains the sample data for the negative unittests for corresponding problem XXXX
+├── rosalind_XXXX_{1,2,3}_sol.py   # Some solutions were too large to include directly in the .py testing file, and are therefore contained in these files
+└── README.md                      # This file, contians information about the program
 ```
 
 ## Running the programs
 
-The following commands can be used to run the programming question - The Peptide Encoding Problem:
+The following command can be used to run all the unittests for the problems solved in this project:
 
 - `python main.py`
-- `python -m unittest unittests.py`
 
-## 1 - N50 and N75 Algorithms
+### Overview
 
-The solutions for the programming question are contained in `n50.py` and can be run from `main.py` or 
-`unittests.py` depending on whether you would like to run the individual functions or the unit tests. See below for more detail.
+The solutions for the programming question are contained in `XXXX.py`, where `XXXX` corresponds to the lettered
+abbreviation for a problem on Rosalind. The problems can be individually run from their `XXXX.py` file or by
+running the corresponding `XXXX_test.py` file or all unitests by running `main.py`,
+depending on whether you would like to run the individual functions or the unit tests. See below for more details.
 
 ### Running unittests and individual functions
 
 Unittests:
-- Running `main.py` or `unittests.py` using the commands above will run the unittests written for the
+- Running `main.py` or using the commands above will run the unittests written for the
 required functions.
 
 Individual Functions:
-- There are some commented out lines in the main method of `unittests.py` and these can be uncommented or
-modified to run the functions individually.
+- There are some commented out lines in the main methods of `XXXX.py` and these can be uncommented or
+modified to run the problem sets individually.
+
+## Experiment Results and Automated Data Generation for LaTeX
+
+There are two ways to visualize and collate the data for the experiments conducted in this project:
+
+- Using `figures.py` to generate CSV files for use in the LaTeX documentation
+- Using `asmq_extension.py` to generate tabular data output in the python console
+
+Experiment parameters can be adjusted and set before running `figures.py`, which generated the following CSV files:
+- For the table data in the LaTeX report
+    - table.csv
+    - contig_spread.csv
+- For the figure/graph data in the LaTeX report
+    - figure.csv
+    - n_vs_ua_contig_spread.csv
+
+The generated CSV files from `figures.py` can be replaced with the files in the directory of the `.tex` file. Compiling
+the report with the new data will update the data in the tables correspondingly.
+
+Running `asmq_extension.py` can be used to view individual tables and output to the python console given parameters
+which can be adjusted before running the file.
+
+## Software Verification
+
+- Analysis using [Radon](https://pypi.org/project/radon/) was parfomred and our code was given the following score for
+  Cyclomatic Complexity using the following command:
+    - Command: `radon cc -e "venv/*" -a -s .`
+    - Output:`Average complexity: A (2.1538461538461537)`
+- Conducted [Pylint](https://pylint.org/) static analysis using parameters specified in `.pylintrc` to conform
+  development of code to required style
+  - Output: `Your code has been rated at 9.68/10`
+- All Rosalind based problem that were solved leading up to ASMQ passed on multiple trial of test data generated by Rosalind
+    - In order to unlock the ASMQ project on Rosalind and it's sample data for testing, all previous dependent problems
+      had to be correctly solved
+    - Multiple trial of ASMQ data passed on Rosalind with our implementation of the algorithm, giving us a confident
+      baseline for the development of the extension algorithm in `asmq_extension.py`
+- All testing for our extension was done using unittests on both the implemented algorithms and data generator algorithms

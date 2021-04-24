@@ -23,7 +23,7 @@ Return: The transcribed RNA string of t.
 """
 
 
-from parsers import *
+from parsers import parse_dna_data
 
 
 def rna(dna_str):

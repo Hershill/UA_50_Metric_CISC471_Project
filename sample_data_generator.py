@@ -1,5 +1,6 @@
 """
-random_contig_set_generator.py file containing the implementation of a generator for our sample data
+random_contig_set_generator.py file containing the implementation of a generator
+for our sample data
 
 Group Project for CISC 471, Computational Biology.
 
@@ -46,7 +47,8 @@ def generate_random_contig(random_len):
     return random_contig
 
 
-def generate_contigs_by_percentage_from_genome(ref_genome, small=1/3, medium=1/3, large=1/3, num=12500):
+def generate_contigs_by_percentage_from_genome(
+        ref_genome, small=1/3, medium=1/3, large=1/3, num=12500):
 
     if small + medium + large > 1:
         return [], []
@@ -114,7 +116,8 @@ def generate_error_sample(contig_sample, ref_genome, pct_error=.05):
 
         temp_contig = contig_sample[rand_index_1] + contig_sample[rand_index_2]
         if temp_contig in ref_genome:
-            temp_contig = contig_sample[rand_index_2] + contig_sample[rand_index_1]
+            temp_contig = contig_sample[rand_index_2] + \
+                          contig_sample[rand_index_1]
 
         contig_errs.append(temp_contig)
         indices_to_remove.extend([rand_index_1, rand_index_2])

@@ -15,7 +15,7 @@ Given: Two DNA strings s and t (each of length at most 1 kbp).
 Return: All locations of t as a substring of s.
 """
 
-from parsers import *
+from parsers import parse_subs_data
 
 
 def subs(dna_s, dna_t):

@@ -18,7 +18,7 @@ Sample Usage:
 """
 
 import unittest
-from asqm_extension import experimental_analysis_with_error
+from asmq_extension import experimental_analysis_with_error
 from sample_data_generator import generate_contigs_by_percentage, \
     count_contig_pct, generate_error_sample, generate_random_contig, \
     generate_contigs_by_percentage_from_genome

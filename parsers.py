@@ -1,5 +1,6 @@
 """
-parsers.py file containing the implementation of many helper functions used across all three algorithms.
+parsers.py file containing the implementation of many parser functions used
+across all three algorithms.
 
 Part 1 of HW 5 for CISC 471, Computational Biology.
 

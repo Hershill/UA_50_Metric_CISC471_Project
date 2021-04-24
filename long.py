@@ -51,6 +51,7 @@ def find_superstring(dna_set, dna=''):
     :param dna:
     :return:
     """
+
     if len(dna_set) == 0:
         return dna
 
