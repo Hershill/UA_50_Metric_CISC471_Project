@@ -189,7 +189,7 @@ def output_figure_data_to_csv(data):
 
 if __name__ == '__main__':
     # reference genome of len 500
-    ref_genome_size = 500
+    ref_genome_size = 5000
 
     # number of contigs in data set
     contig_genome_scale = 2.25  # percent ratio of contigs to ref_genome_size
@@ -201,12 +201,12 @@ if __name__ == '__main__':
     # generate data sets
 
     data_set = \
-        gen_table_data(ref_genome_size, contig_set_size, scoring_pct, trials=1)
+        gen_table_data(ref_genome_size, contig_set_size, scoring_pct, trials=5)
 
     output_table_data_to_csv(data_set)
 
     data_set = gen_figure_data(
-        ref_genome_size, contig_set_size, scoring_pct, trials=1
+        ref_genome_size, contig_set_size, scoring_pct, trials=5
     )
 
     output_figure_data_to_csv(data_set)
