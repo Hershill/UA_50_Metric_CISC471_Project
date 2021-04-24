@@ -120,7 +120,7 @@ def output_table_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("table.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter=',')
+        writer = csv.writer(csv_file, delimiter='\t')
         writer.writerow(
             ['Metric', 'Control', 'SmallSkew', 'MediumSkew', 'LargeSkew']
         )
@@ -130,7 +130,7 @@ def output_table_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("contig_spread.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter=',')
+        writer = csv.writer(csv_file, delimiter='\t')
         writer.writerow(
             ['ContigParam', 'Control', 'SmallSkew', 'MediumSkew', 'LargeSkew']
         )
@@ -149,7 +149,18 @@ def output_figure_data_to_csv(data):
     """
 
     # take in data as a collection of dictionaries
-    with open("figure.csv", "w", newline="") as csv_file:
+    with open("figure_table.csv", "w", newline="") as csv_file:
+        writer = csv.writer(csv_file, delimiter='\t')
+        writer.writerow(['Metric', 'N50', 'UA50'])
+
+        for key in list(data.keys()):
+            if "CONTIG" not in key:
+                writer.writerow(
+                    [key] + [data[key]['N50']] + [data[key]['UA50']]
+                )
+
+        # take in data as a collection of dictionaries
+    with open("figure_graph.csv", "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(['Metric', 'N50', 'UA50'])
 
@@ -161,7 +172,7 @@ def output_figure_data_to_csv(data):
 
     # take in data as a collection of dictionaries
     with open("n_vs_ua_contig_spread.csv", "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter=',')
+        writer = csv.writer(csv_file, delimiter='\t')
         writer.writerow(
             ['ErrorPCT', 'NUM', 'SmallPCT', 'MediumPCT', 'LargePCT']
         )
